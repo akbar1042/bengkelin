@@ -1,0 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;800&display=swap");
+
+.brand-mark {
+  display: inline-flex;
+  align-items: baseline;
+  flex-shrink: 0;
+  color: #dae2fd;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -.025em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.brand-mark__suffix {
+  color: #4cd7f6;
+  font-weight: 300;
+}
+
+.brand-mark::after {
+  content: "";
+  flex: none;
+  width: .25em;
+  height: .25em;
+  margin-inline-start: .167em;
+  border-radius: 50%;
+  background-color: #4cd7f6;
+}
+
+.brand-mark--small {
+  font-size: .875rem;
+}
+
+@media (max-width: 639px) {
+  .brand-mark:not(.brand-mark--small) {
+    font-size: 1.25rem;
+  }
+}
