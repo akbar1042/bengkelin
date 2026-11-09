@@ -1,0 +1,527 @@
+<!doctype html>
+<html class="dark scroll-smooth" lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="same-origin" name="referrer" />
+    <title>Pengaturan Akun — Bengkelin</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "bengkelin-navy": "#0b1326",
+              "bengkelin-dark": "#060e20",
+              "bengkelin-card": "#131b2e",
+              "bengkelin-card-hover": "#17223b",
+              "bengkelin-border": "rgba(255, 255, 255, 0.08)",
+              "bengkelin-cyan": "#4cd7f6",
+              "bengkelin-blue": "#93ccff",
+              "bengkelin-amber": "#ffb95f",
+              "bengkelin-muted": "#bfc7d2",
+            },
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              heading: ["Plus Jakarta Sans", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      body {
+        background-color: #0b1326;
+        color: #bfc7d2;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      .glass-panel {
+        background: rgba(19, 27, 46, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      ::-webkit-scrollbar {
+        width: 5px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 9999px;
+      }
+    </style>
+    <link rel="stylesheet" href="/brand.css" />
+  </head>
+
+  <body
+    class="min-h-screen bg-bengkelin-navy text-slate-200 antialiased flex flex-col selection:bg-bengkelin-cyan/20 selection:text-bengkelin-cyan"
+  >
+    <!-- TOP NAVIGATION BAR -->
+    <header
+      class="sticky top-0 z-50 glass-panel border-b border-white/10 bg-[#0b1326]/90 backdrop-blur-md"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3"
+      >
+        <!-- Brand Logo & Nav Links -->
+        <div class="flex items-center gap-4 xl:gap-6 min-w-0">
+          <a class="brand-mark" href="/login.html"
+            >bengkel<span class="brand-mark__suffix">In</span></a
+          >
+
+          <!-- Navigation Items -->
+          <nav
+            class="hidden md:flex items-center gap-1 xl:gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          >
+            <a
+              href="/landing.html"
+              class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-medium text-bengkelin-muted hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+            >
+              Beranda
+            </a>
+            <a
+              href="/search.html"
+              class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-medium text-bengkelin-muted hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+            >
+              Cari bengkel
+            </a>
+            <a
+              href="/ai.html"
+              class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-medium text-bengkelin-muted hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+            >
+              Konsultasi AI
+            </a>
+            <a
+              href="/support.html"
+              class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-medium text-bengkelin-muted hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+            >
+              Customer Service
+            </a>
+            <a
+              href="/help.html"
+              class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-medium text-bengkelin-muted hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+            >
+              Pusat bantuan
+            </a>
+            <a
+              href="/account-settings.html"
+              class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-bengkelin-cyan hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+            >
+              Pengaturan akun
+            </a>
+          </nav>
+        </div>
+
+        <!-- Tombol Auth & Widget Profil Kanan Upper Header -->
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2 border-r border-white/10 pr-4">
+            <!-- Tombol Keranjang -->
+            <a
+              href="/orders.html"
+              class="p-2 rounded-xl text-slate-400 hover:text-bengkelin-cyan hover:bg-white/5 transition-all flex items-center justify-center"
+              title="Keranjang"
+            >
+              <span class="material-symbols-outlined text-[24px]"
+                >shopping_cart</span
+              >
+            </a>
+
+            <!-- Tombol Notifikasi -->
+            <a
+              href="/notifications.html"
+              class="relative p-2 rounded-xl text-slate-400 hover:text-bengkelin-cyan hover:bg-white/5 transition-all flex items-center justify-center"
+              title="Notifikasi"
+            >
+              <span class="material-symbols-outlined text-[24px]"
+                >notifications</span
+              >
+              <span
+                class="absolute top-2 right-2 w-2 h-2 rounded-full bg-bengkelin-cyan animate-pulse"
+              ></span>
+            </a>
+          </div>
+
+          <!-- Dynamic Account Profile Widget (Di-render oleh app.js) -->
+          <div data-account-profile hidden>
+            <div
+              class="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-white/20 transition-all"
+            >
+              <strong
+                data-profile-avatar
+                class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center font-bold text-white text-xs border border-white/20 shadow-inner shrink-0"
+                aria-hidden="true"
+              ></strong>
+              <span class="hidden sm:flex flex-col text-left">
+                <span
+                  data-profile-email
+                  class="text-xs font-medium text-slate-200 truncate max-w-[160px]"
+                ></span>
+                <small
+                  data-profile-role
+                  class="text-[10px] font-mono text-bengkelin-cyan"
+                ></small>
+              </span>
+            </div>
+          </div>
+
+          <!-- Tombol Logout -->
+          <button
+            type="button"
+            data-landing-logout
+            title="Keluar Akun"
+            aria-label="Keluar Akun"
+            class="p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/5 hover:border-rose-500/20 transition-all flex items-center justify-center"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.8"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN ACCOUNT SETTINGS WRAPPER -->
+    <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-6">
+      <!-- HERO HEADER -->
+      <div
+        class="glass-panel rounded-3xl p-6 sm:p-8 border border-white/10 shadow-xl relative overflow-hidden"
+      >
+        <div
+          class="absolute -right-16 -top-16 w-64 h-64 bg-bengkelin-cyan/10 rounded-full blur-3xl pointer-events-none"
+        ></div>
+
+        <div class="relative z-10">
+          <div
+            class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-xs font-mono text-bengkelin-cyan mb-2"
+          >
+            <span class="material-symbols-outlined text-[16px]"
+              >manage_accounts</span
+            >
+            <span>ACCOUNT PREFERENCES</span>
+          </div>
+          <h1
+            class="text-2xl sm:text-3xl font-heading font-extrabold text-white tracking-tight"
+          >
+            Pengaturan Akun
+          </h1>
+          <p class="text-xs sm:text-sm text-bengkelin-muted mt-1 max-w-2xl">
+            Kelola kata sandi, keamanan profil, dan status keanggotaan akun
+            Bengkelin Anda.
+          </p>
+        </div>
+      </div>
+
+      <!-- PROFIL RINGKAS CARD (Sinkron Otomatis dengan Widget Header Atas) -->
+      <div
+        class="glass-panel rounded-3xl p-6 border border-white/10 shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+      >
+        <div class="flex items-center gap-4">
+          <!-- Avatar Inisial Sync -->
+          <div
+            data-card-avatar
+            class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center font-bold text-white text-lg border border-white/20 shadow-md shrink-0 uppercase"
+          >
+            --
+          </div>
+          <div>
+            <h2
+              class="text-base sm:text-lg font-heading font-bold text-white flex items-center gap-2"
+            >
+              <span data-card-email>Memuat data akun...</span>
+            </h2>
+            <p
+              class="text-xs text-bengkelin-cyan font-mono mt-0.5 flex items-center gap-1.5"
+            >
+              <span
+                class="w-2 h-2 rounded-full bg-bengkelin-cyan animate-pulse"
+              ></span>
+              <span data-card-role>Pelanggan</span>
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="px-3.5 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs text-slate-300 font-mono"
+        >
+          Role:
+          <span data-card-role-badge class="text-bengkelin-cyan font-semibold"
+            >Pelanggan</span
+          >
+        </div>
+      </div>
+
+      <!-- FORM GANTI PASSWORD CARD -->
+      <section
+        class="glass-panel rounded-3xl p-6 sm:p-8 border border-white/10 shadow-xl space-y-6"
+      >
+        <div class="flex items-center gap-3 border-b border-white/10 pb-4">
+          <div
+            class="w-10 h-10 rounded-xl bg-bengkelin-cyan/10 border border-bengkelin-cyan/20 flex items-center justify-center text-bengkelin-cyan"
+          >
+            <span class="material-symbols-outlined text-[22px]"
+              >lock_reset</span
+            >
+          </div>
+          <div>
+            <h2 class="text-base sm:text-lg font-heading font-bold text-white">
+              Ganti Password
+            </h2>
+            <p class="text-xs text-slate-400">
+              Perbarui kata sandi secara berkala untuk keamanan akun Anda.
+            </p>
+          </div>
+        </div>
+
+        <form id="changePasswordForm" class="space-y-4">
+          <div>
+            <label
+              for="currentPassword"
+              class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5"
+            >
+              Password Saat Ini
+            </label>
+            <input
+              type="password"
+              id="currentPassword"
+              name="currentPassword"
+              required
+              placeholder="Masukkan password saat ini"
+              class="w-full px-4 py-3 bg-black/50 border border-white/10 rounded-2xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-bengkelin-cyan focus:ring-1 focus:ring-bengkelin-cyan transition-all"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label
+                for="newPassword"
+                class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5"
+              >
+                Password Baru
+              </label>
+              <input
+                type="password"
+                id="newPassword"
+                name="newPassword"
+                required
+                minlength="6"
+                placeholder="Minimal 6 karakter"
+                class="w-full px-4 py-3 bg-black/50 border border-white/10 rounded-2xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-bengkelin-cyan focus:ring-1 focus:ring-bengkelin-cyan transition-all"
+              />
+            </div>
+
+            <div>
+              <label
+                for="confirmPassword"
+                class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5"
+              >
+                Konfirmasi Password Baru
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                required
+                minlength="6"
+                placeholder="Ulangi password baru"
+                class="w-full px-4 py-3 bg-black/50 border border-white/10 rounded-2xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-bengkelin-cyan focus:ring-1 focus:ring-bengkelin-cyan transition-all"
+              />
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-2">
+            <button
+              type="submit"
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-bengkelin-cyan to-blue-500 hover:brightness-110 text-black font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-cyan-500/15 active:scale-95 cursor-pointer"
+            >
+              <span class="material-symbols-outlined text-[18px]">save</span>
+              <span>Simpan Password Baru</span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- DANGER ZONE CARD (PENONAKTIFAN AKUN) -->
+      <section
+        class="glass-panel rounded-3xl p-6 sm:p-8 border border-rose-500/20 bg-gradient-to-r from-rose-500/5 via-transparent to-transparent shadow-xl space-y-6"
+      >
+        <div class="flex items-center gap-3 border-b border-white/10 pb-4">
+          <div
+            class="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400"
+          >
+            <span class="material-symbols-outlined text-[22px]">warning</span>
+          </div>
+          <div>
+            <h2 class="text-base sm:text-lg font-heading font-bold text-white">
+              Penonaktifan Akun
+            </h2>
+            <p class="text-xs text-rose-300/80">
+              Tindakan ini permanen. Pastikan semua pesanan aktif Anda telah
+              selesai dahulu.
+            </p>
+          </div>
+        </div>
+
+        <form id="deactivateAccountForm" class="space-y-4">
+          <div>
+            <label
+              for="deletePassword"
+              class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5"
+            >
+              Konfirmasi Password
+            </label>
+            <input
+              type="password"
+              id="deletePassword"
+              name="deletePassword"
+              required
+              placeholder="Masukkan password Anda untuk konfirmasi"
+              class="w-full px-4 py-3 bg-black/50 border border-white/10 rounded-2xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-rose-400 focus:ring-1 focus:ring-rose-400 transition-all"
+            />
+          </div>
+
+          <div>
+            <label
+              for="deleteConfirmText"
+              class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5"
+            >
+              Ketik Teks Konfirmasi
+            </label>
+            <input
+              type="text"
+              id="deleteConfirmText"
+              name="deleteConfirmText"
+              required
+              placeholder="Ketik HAPUS AKUN"
+              class="w-full px-4 py-3 bg-black/50 border border-white/10 rounded-2xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-rose-400 focus:ring-1 focus:ring-rose-400 transition-all font-mono"
+            />
+            <p class="text-[11px] text-slate-400 mt-1">
+              Ketik frasa
+              <strong class="text-rose-400 font-mono">HAPUS AKUN</strong> untuk
+              mengonfirmasi penonaktifan.
+            </p>
+          </div>
+
+          <div class="flex justify-end pt-2">
+            <button
+              type="submit"
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-rose-600/20 active:scale-95 cursor-pointer"
+            >
+              <span class="material-symbols-outlined text-[18px]"
+                >delete_forever</span
+              >
+              <span>Nonaktifkan Akun Saya</span>
+            </button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <!-- DOCUMENT FOOTER -->
+    <footer
+      class="mt-auto border-t border-white/10 bg-[#060e20] py-6 text-xs text-slate-400"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4"
+      >
+        <div class="flex items-center gap-3">
+          <span class="brand-mark brand-mark--small"
+            >bengkel<span class="brand-mark__suffix">In</span></span
+          >
+          <span>— Account &amp; Security Settings</span>
+        </div>
+
+        <div class="flex items-center gap-6 font-mono text-[11px]">
+          <a
+            class="hover:text-bengkelin-cyan transition-colors"
+            href="/terms.html"
+            >Syarat Layanan</a
+          >
+          <span>•</span>
+          <a
+            class="hover:text-bengkelin-cyan transition-colors"
+            href="/privacy.html"
+            >Kebijakan Privasi</a
+          >
+        </div>
+      </div>
+    </footer>
+
+    <!-- SCRIPT INTEGRATION & AUTO-SYNC PROFILE CARD -->
+    <script src="/app.js"></script>
+    <script src="/notifications.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Menyinkronkan card profil bawah dengan widget header atas yang diisi oleh app.js
+        const syncProfileData = () => {
+          const topAvatar = document.querySelector("[data-profile-avatar]");
+          const topEmail = document.querySelector("[data-profile-email]");
+          const topRole = document.querySelector("[data-profile-role]");
+
+          const cardAvatar = document.querySelector("[data-card-avatar]");
+          const cardEmail = document.querySelector("[data-card-email]");
+          const cardRole = document.querySelector("[data-card-role]");
+          const cardRoleBadge = document.querySelector(
+            "[data-card-role-badge]",
+          );
+
+          if (topEmail && cardEmail && topEmail.textContent.trim()) {
+            cardEmail.textContent = topEmail.textContent.trim();
+          }
+          if (topAvatar && cardAvatar && topAvatar.textContent.trim()) {
+            cardAvatar.textContent = topAvatar.textContent.trim();
+          }
+          if (topRole && topRole.textContent.trim()) {
+            if (cardRole) cardRole.textContent = topRole.textContent.trim();
+            if (cardRoleBadge)
+              cardRoleBadge.textContent = topRole.textContent.trim();
+          }
+        };
+
+        syncProfileData();
+        setTimeout(syncProfileData, 100);
+        setTimeout(syncProfileData, 500);
+
+        const navWidget = document.querySelector("[data-account-profile]");
+        if (navWidget) {
+          const observer = new MutationObserver(syncProfileData);
+          observer.observe(navWidget, {
+            childList: true,
+            subtree: true,
+            characterData: true,
+            attributes: true,
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
