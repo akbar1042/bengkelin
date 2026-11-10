@@ -1,8 +1,10 @@
+-- query untuk membuat database jika belum ada
 CREATE DATABASE IF NOT EXISTS bengkel
 CHARACTER SET utf8mb4;
 
 USE bengkel;
 
+-- query untuk membuat tabel users jika belum ada
 CREATE TABLE IF NOT EXISTS users (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -10,6 +12,8 @@ CREATE TABLE IF NOT EXISTS users (
     role ENUM('customer','admin') NOT NULL DEFAULT 'customer',
     tgl_daftar TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- query untuk membuat tabel partner_workshops jika belum ada
 CREATE TABLE IF NOT EXISTS partner_workshops (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     owner_user_id INT UNSIGNED NOT NULL,
