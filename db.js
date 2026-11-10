@@ -1,5 +1,7 @@
+// mengambil lib
 const mysql = require('mysql2/promise');
 
+// membuat koneksi
 const db = mysql.createPool({
     host: "localhost",
     timezone: "Z",
@@ -10,5 +12,6 @@ const db = mysql.createPool({
     connectionLimit: 10
 });
 
+// setiap koneksi set time zone utc
 db.pool.on("connection", connection => connection.query("SET time_zone = '+00:00'"));
 module.exports = db;
