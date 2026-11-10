@@ -6,7 +6,6 @@ const workshops = [
   {
     "id": 1,
     "name": "Bengkel Maju Jaya",
-    "emoji": "🔧",
     "lat": -7.38244,
     "lng": 112.763835,
     "rating": 4.9,
@@ -23,7 +22,6 @@ const workshops = [
   {
     "id": 2,
     "name": "Auto Care Juanda",
-    "emoji": "🛞",
     "lat": -7.39094,
     "lng": 112.7708425,
     "rating": 4.8,
@@ -41,7 +39,6 @@ const workshops = [
   {
     "id": 3,
     "name": "Bengkel Sahabat",
-    "emoji": "🚗",
     "lat": -7.39994,
     "lng": 112.7508211,
     "rating": 4.9,
@@ -58,7 +55,6 @@ const workshops = [
   {
     "id": 4,
     "name": "Mitra Motor Sedati",
-    "emoji": "🏍️",
     "lat": -7.36794,
     "lng": 112.7598307,
     "rating": 4.7,
@@ -76,7 +72,6 @@ const workshops = [
   {
     "id": 5,
     "name": "Garasi Pak Dedi",
-    "emoji": "🔧",
     "lat": -7.35494,
     "lng": 112.7378073,
     "rating": 4.6,
@@ -93,7 +88,6 @@ const workshops = [
   {
     "id": 6,
     "name": "Cepat Tanggap Ban",
-    "emoji": "🛞",
     "lat": -7.40944,
     "lng": 112.7548254,
     "rating": 4.8,
@@ -111,7 +105,6 @@ const workshops = [
   {
     "id": 7,
     "name": "Sinar Otomotif",
-    "emoji": "🚗",
     "lat": -7.42294,
     "lng": 112.7818544,
     "rating": 4.5,
@@ -128,7 +121,6 @@ const workshops = [
   {
     "id": 8,
     "name": "Derek Kilat Juanda",
-    "emoji": "🚚",
     "lat": -7.4039399,
     "lng": 112.7868597,
     "rating": 4.9,
@@ -145,7 +137,6 @@ const workshops = [
   {
     "id": 9,
     "name": "Bengkel Karya Mandiri",
-    "emoji": "🔧",
     "lat": -7.34394,
     "lng": 112.7768488,
     "rating": 4.4,
@@ -162,7 +153,6 @@ const workshops = [
   {
     "id": 10,
     "name": "Aki Prima Service",
-    "emoji": "🔋",
     "lat": -7.3859399,
     "lng": 112.7328019,
     "rating": 4.7,
@@ -180,7 +170,6 @@ const workshops = [
   {
     "id": 11,
     "name": "Lancar Jaya Motor",
-    "emoji": "🏍️",
     "lat": -7.43694,
     "lng": 112.7478178,
     "rating": 4.3,
@@ -197,7 +186,6 @@ const workshops = [
   {
     "id": 12,
     "name": "Express Oli Station",
-    "emoji": "🛢️",
     "lat": -7.37494,
     "lng": 112.7748468,
     "rating": 4.6,
@@ -215,7 +203,6 @@ const workshops = [
   {
     "id": 13,
     "name": "Bengkel Harapan Baru",
-    "emoji": "🔧",
     "lat": -7.4159399,
     "lng": 112.7237921,
     "rating": 4.5,
@@ -232,7 +219,6 @@ const workshops = [
   {
     "id": 14,
     "name": "Rapi Auto Spa",
-    "emoji": "🚗",
     "lat": -7.3619399,
     "lng": 112.793867,
     "rating": 4.7,
@@ -250,7 +236,6 @@ const workshops = [
   {
     "id": 15,
     "name": "Siaga 24 Jam",
-    "emoji": "🚨",
     "lat": -7.3939399,
     "lng": 112.7988725,
     "rating": 4.8,
@@ -269,7 +254,6 @@ const workshops = [
   {
     "id": 16,
     "name": "Mekanik Keliling Waru",
-    "emoji": "🧰",
     "lat": -7.3729396,
     "lng": 112.6857517,
     "rating": 4.6,
@@ -286,7 +270,6 @@ const workshops = [
   {
     "id": 17,
     "name": "Turbo Garage",
-    "emoji": "🏎️",
     "lat": -7.4489399,
     "lng": 112.7858588,
     "rating": 4.9,
@@ -304,7 +287,6 @@ const workshops = [
   {
     "id": 18,
     "name": "Bengkel Putra Sedati",
-    "emoji": "🔧",
     "lat": -7.33094,
     "lng": 112.7458159,
     "rating": 4.4,
@@ -321,7 +303,6 @@ const workshops = [
   {
     "id": 19,
     "name": "Ban & Velg Center",
-    "emoji": "🛞",
     "lat": -7.42694,
     "lng": 112.7608318,
     "rating": 4.7,
@@ -339,7 +320,6 @@ const workshops = [
   {
     "id": 20,
     "name": "Solusi Mobil Sidoarjo",
-    "emoji": "🚗",
     "lat": -7.30094,
     "lng": 112.763835,
     "rating": 4.5,
