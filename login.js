@@ -97,10 +97,7 @@ app.use("/dashboard", requireLogin);
 app.use("/api/dashboard", requireLogin);
 app.use(require("./bengkelin/routes/dashboards").createDashboardRouter());
 
-// Menyediakan halaman AI dan pencarian dengan pembatasan akses mitra.
-app.get("/ai.html", requireLogin, denyPartner, (req, res) =>
-  res.sendFile(path.join(__dirname, "pages", "ai.html")),
-);
+// Menyediakan halaman pencarian dengan pembatasan akses mitra.
 app.get("/search.html", requireLogin, denyPartner, (req, res) =>
   res.sendFile(path.join(__dirname, "pages", "search.html")),
 );
@@ -165,10 +162,6 @@ app.use(
     },
   }),
 );
-
-// memasang rute chat dan membatasi akses akun mitra.
-app.use("/api/chat", requireLogin, denyPartner);
-app.use(require("./chat-routes"));
 
 // melindungi dan memasang rute API mitra.
 app.use("/api/partners", requireLogin);
