@@ -144,11 +144,3 @@ npm run test:partners
 ```
 
 ---
-
-## Dokumentasi Teknis Tambahan
-
-- [WORKSHOPS.md](WORKSHOPS.md) — Migrasi role, moderasi bengkel mitra, dan konfigurasi Google Places
-- [DASHBOARDS.md](DASHBOARDS.md) — Pemisahan dashboard 3 role dan matriks otorisasi
-- [COMMERCE.md](COMMERCE.md) — Alur pemesanan, kapasitas jadwal, dan persetujuan biaya berversi
-- [AUDIT-FIXES.md](AUDIT-FIXES.md) & [SIX-FIXES.md](SIX-FIXES.md) — Riwayat perbaikan keamanan, sesi persisten, dan audit
-- [HTTPS-TESTING.md](HTTPS-TESTING.md) — Panduan uji coba lokasi HTTPS lokal melalui tunnel
