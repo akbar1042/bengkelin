@@ -26,8 +26,7 @@ Platform web perawatan kendaraan berbasis **Express + MySQL** untuk menghubungka
 ├── pages/                # Halaman HTML terautentikasi (Customer, Mitra, Admin)
 ├── public/               # Halaman publik/guest, stylesheet (brand.css, frontend.css), script client & gambar
 ├── migrations/           # Skrip SQL migrasi bertahap (001 s.d. 005)
-├── scripts/              # Utilitas CLI migrasi database & pengelolaan role admin
-└── tests/                # Unit test (*.test.cjs) & integration test (*.integration.cjs)
+└── scripts/              # Utilitas CLI migrasi database & pengelolaan role admin
 ```
 
 ---
@@ -126,21 +125,5 @@ Buka browser di **`http://localhost:3000/`**.
 - **Kelola Akun (`/admin-accounts.html`)**: Daftar seluruh akun pengguna (`customer`, `partner`, `admin`) dan daftar bengkel beserta status moderasinya.
 - **Log Monitoring Aktivitas & Transaksi (`/admin-monitoring.html`)**: Pemantauan seluruh transaksi QRIS/COD, total order, total transaksi, dan log event real-time antar pelanggan, mitra, dan sistem.
 - **Moderasi Mitra**: Meninjau pengajuan bengkel baru, menyetujui/menolak revisi profil, dan mencabut status mitra.
-
----
-
-## Pengujian Otomatis
-
-```powershell
-# Unit & UI contract tests (tanpa database)
-npm test
-
-# Integration tests (memerlukan MySQL aktif dan .env)
-npm run test:dashboards
-npm run test:features
-npm run test:commerce
-npm run test:audit
-npm run test:partners
-```
 
 ---
