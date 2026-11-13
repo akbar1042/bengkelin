@@ -1,24 +1,31 @@
 // mengambil lib dan modul
-const express = require("express");
+const fs = require("node:fs");
 const path = require("node:path");
+const envPath = path.join(__dirname, ".env");
+if (typeof process.loadEnvFile === "function" && fs.existsSync(envPath)) {
+  try {
+    process.loadEnvFile(envPath);
+  } catch {
+    // ignore if already loaded or invalid
+  }
+}
+const express = require("express");
 const crypto = require("node:crypto");
 const session = require("express-session");
 const db = require("./db");
-const accounts = require("./bengkelin/repositories/accounts");
+const accounts = require("./kunciGarasi/repositories/accounts");
 const bcrypt = require("bcrypt");
-
-// Preparasi Express, port, dan JSON.
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.set("trust proxy", "loopback");
 app.use(express.json());
-
-// menyimpan sesi di MySQL dan mengatur cookie sesi.
 app.use(
   session({
-    secret: require("./bengkelin/services/session-store").sessionSecret(),
+    secret: require("./kunciGarasi/services/session-store").sessionSecret(),
     store:
-      new (require("./bengkelin/services/session-store").MysqlSessionStore)(db),
+      new (require("./kunciGarasi/services/session-store").MysqlSessionStore)(
+        db,
+      ),
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -31,15 +38,12 @@ app.use(
     },
   }),
 );
-
-// memastikan pengguna sudah login sebelum mengakses rute yang dilindungi.
 async function requireLogin(req, res, next) {
   if (!req.session.user) {
     if (req.originalUrl.startsWith("/api/"))
       return res.status(401).json({ message: "Silakan login terlebih dahulu" });
     return res.redirect("/login.html");
   }
-  // memuat akun dan menghapus sesi jika akun atau versi autentikasi tidak valid.
   try {
     req.account = await accounts.findById(req.session.user.id);
     if (
@@ -61,87 +65,85 @@ async function requireLogin(req, res, next) {
     next(error);
   }
 }
-
-// membatasi akses akun mitra ke fitur cust.
 function denyPartner(req, res, next) {
   if (req.account.role !== "partner") return next();
-  const message = "Fitur ini untuk akun cust. Buka dashboard mitra.";
+  const message = "Fitur ini untuk akun pelanggan. Buka dashboard mitra.";
   if (req.originalUrl.toLowerCase().startsWith("/api/")) {
     return res.status(403).json({ message });
   }
   return res.status(403).send(message);
 }
-
-// menampilkan beranda umum atau mengarahkan cust yang sudah login.
-app.get("/", (req, res, next) => {
-  const showHome = () =>
-    res.sendFile(path.join(__dirname, "public", "home.html"));
-  if (!req.session.user) return showHome();
-  return requireLogin(req, res, (error) => {
-    if (error) return next(error);
-    return req.account.role === "customer"
-      ? res.redirect("/landing.html")
-      : showHome();
-  });
-});
-
-// menampilkan beranda cust atau mengarahkan pengguna ke dashboard akunnya.
+async function redirectIfLoggedIn(req, res, next) {
+  res.setHeader("Cache-Control", "no-store");
+  if (!req.session?.user) return next();
+  try {
+    const account = await accounts.findById(req.session.user.id);
+    if (
+      !account ||
+      (req.session.authVersion ?? 0) !== (account.authVersion ?? 0)
+    ) {
+      return req.session.destroy((error) => {
+        if (error) return next(error);
+        res.clearCookie("connect.sid");
+        next();
+      });
+    }
+    return res.redirect(
+      account.role === "customer" ? "/landing.html" : account.dashboardUrl,
+    );
+  } catch (error) {
+    next(error);
+  }
+}
+app.get("/", redirectIfLoggedIn, (req, res) =>
+  res.sendFile(path.join(__dirname, "public", "home.html")),
+);
+for (const page of ["home", "login", "login-mitra", "registrasi"]) {
+  app.get("/" + page + ".html", redirectIfLoggedIn, (req, res) =>
+    res.sendFile(path.join(__dirname, "public", page + ".html")),
+  );
+}
 app.get("/landing.html", requireLogin, (req, res) => {
   if (req.account.role !== "customer")
     return res.redirect(req.account.dashboardUrl);
   res.sendFile(path.join(__dirname, "pages", "customer-home.html"));
 });
-
-// melindungi dan memasang rute dashboard.
 app.use("/dashboard", requireLogin);
 app.use("/api/dashboard", requireLogin);
-app.use(require("./bengkelin/routes/dashboards").createDashboardRouter());
-
-// Menyediakan halaman pencarian dengan pembatasan akses mitra.
+app.use(require("./kunciGarasi/routes/dashboards").createDashboardRouter());
+app.get("/ai.html", requireLogin, denyPartner, (req, res) =>
+  res.sendFile(path.join(__dirname, "pages", "ai.html")),
+);
 app.get("/search.html", requireLogin, denyPartner, (req, res) =>
   res.sendFile(path.join(__dirname, "pages", "search.html")),
 );
-
-// menampilkan halaman pendaftaran mitra melalui alamat publik.
-app.get("/registrasi-mitra.html", (req, res) =>
+app.get("/registrasi-mitra.html", redirectIfLoggedIn, (req, res) =>
   res.sendFile(path.join(__dirname, "pages", "partner-register.html")),
 );
-
-// mengarahkan pengguna ke rute dashboard mitra atau cust.
 app.get("/dashboard-mitra.html", requireLogin, (req, res) =>
   res.redirect("/dashboard/partner"),
 );
 app.get("/dashboard-customer.html", requireLogin, (req, res) =>
   res.redirect("/dashboard/customer"),
 );
-
-// memasang rute lokasi dan mewajibkan login untuk fitur lokasi.
 app.use("/api/location-name", requireLogin);
-app.use(require("./bengkelin/routes/location").createLocationRouter());
-
-// Mewajibkan login untuk API media dan halaman pendaftaran mitra ini.
+app.use(require("./kunciGarasi/routes/location").createLocationRouter());
 app.use("/api/partner-media", requireLogin);
 app.get("/partner-register.html", requireLogin, (req, res) =>
   res.sendFile(path.join(__dirname, "pages", "partner-register.html")),
 );
-
-// menampilkan halaman pengelolaan mitra khusus admin.
 app.get("/admin-partners.html", requireLogin, async (req, res) => {
   if (
-    !(await require("./bengkelin/repositories/partners").isAdmin(
+    !(await require("./kunciGarasi/repositories/partners").isAdmin(
       req.session.user.id,
     ))
   )
     return res.status(403).send("Halaman ini hanya untuk admin.");
-  res.sendFile(path.join(__dirname, "pages", "admin-partners.html"));
+  res.redirect("/dashboard/admin");
 });
-
-// mengarahkan pengguna dari halaman indeks ke dashboard.
 app.get("/index.html", requireLogin, (req, res) => res.redirect("/dashboard"));
-
-// melayani aset Bengkelin setelah login dan membatasi akses langsung ke HTML.
 app.use(
-  "/assets/bengkelin",
+  "/assets/kunciGarasi",
   requireLogin,
   (req, res, next) => {
     let requestPath;
@@ -154,7 +156,7 @@ app.use(
       return res.status(403).send("Buka halaman melalui dashboard akun Anda.");
     next();
   },
-  express.static(path.join(__dirname, "bengkelin", "public"), {
+  express.static(path.join(__dirname, "kunciGarasi", "public"), {
     index: false,
     extensions: false,
     setHeaders: (res, file) => {
@@ -162,20 +164,14 @@ app.use(
     },
   }),
 );
-
-// melindungi dan memasang rute API mitra.
+app.use("/api/chat", requireLogin, denyPartner);
+app.use(require("./chat-routes"));
 app.use("/api/partners", requireLogin);
 app.use("/api/admin/partners", requireLogin);
-app.use(require("./bengkelin/routes/partners").createPartnerRouter());
-
-// memasang rute Bengkelin dengan pembatasan akses pada API bengkel.
+app.use(require("./kunciGarasi/routes/partners").createPartnerRouter());
 app.use("/api/workshops", requireLogin, denyPartner);
-app.use(require("./bengkelin/routes"));
-
-// mengembalikan informasi akun yang sedang login.
+app.use(require("./kunciGarasi/routes"));
 app.get("/api/me", requireLogin, (req, res) => res.json({ user: req.account }));
-
-// mengakhiri sesi dan menghapus cookie saat logout.
 app.post("/api/logout", (req, res, next) => {
   req.session.destroy((error) => {
     if (error) return next(error);
@@ -183,8 +179,6 @@ app.post("/api/logout", (req, res, next) => {
     res.json({ message: "Logout berhasil" });
   });
 });
-
-// memeriksa tipe dan isi input serta format email.
 function validInput(email, password) {
   return (
     typeof email === "string" &&
@@ -194,19 +188,15 @@ function validInput(email, password) {
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
   );
 }
-
-// menangani login dan membatasi frekuensi percobaan.
 app.post(
   "/api/login",
-  require("./bengkelin/services/rate-limit").loginLimit(),
+  require("./kunciGarasi/services/rate-limit").loginLimit(),
   async (req, res, next) => {
     const { email, password } = req.body ?? {};
     if (!validInput(email, password))
       return res
         .status(400)
         .json({ message: "Email dan password tidak valid" });
-
-    // mencari pengguna aktif dan memverifikasi password.
     try {
       const [rows] = await db.execute(
         "SELECT id, email, password_hash FROM users WHERE email = ? AND deleted_at IS NULL",
@@ -218,8 +208,6 @@ app.post(
       const account = await accounts.findById(user.id);
       if (!account)
         return res.status(401).json({ message: "Akun tidak tersedia." });
-    
-      // membuat sesi baru dan mengirim tujuan setelah login sesuai peran.
       req.session.regenerate((error) => {
         if (error) return next(error);
         req.session.user = { id: user.id, email: user.email };
@@ -240,8 +228,6 @@ app.post(
     }
   },
 );
-
-// memvalidasi input dan panjang password saat registrasi.
 app.post("/api/registrasi", async (req, res, next) => {
   const { email, password } = req.body ?? {};
   if (!validInput(email, password))
@@ -250,8 +236,6 @@ app.post("/api/registrasi", async (req, res, next) => {
     return res
       .status(400)
       .json({ message: "Password minimal 8 karakter dan maksimal 72 byte" });
-  
-  // menyimpan akun baru dengan hash password dan menangani email duplikat.
   try {
     const passwordHash = await bcrypt.hash(password, 12);
     await db.execute("INSERT INTO users (email, password_hash) VALUES (?, ?)", [
@@ -265,64 +249,91 @@ app.post("/api/registrasi", async (req, res, next) => {
     next(error);
   }
 });
-
-// mendaftarkan halaman cust dan membatasi akses akun mitra.
-for (const page of ["partner-detail", "orders", "favorites", "support"]) {
+for (const page of ["partner-detail", "orders", "support"]) {
   app.get("/" + page + ".html", requireLogin, denyPartner, (req, res) =>
     res.sendFile(path.join(__dirname, "pages", page + ".html")),
   );
 }
-
-// mendaftarkan halaman pengelolaan yang memerlukan login.
-for (const page of [
-  "owner-workshops",
-  "owner-orders",
-  "account-settings",
-  "review-moderation",
-])
+for (const page of ["owner-workshops", "owner-orders", "account-settings"])
   app.get("/" + page + ".html", requireLogin, (req, res) =>
     res.sendFile(path.join(__dirname, "pages", page + ".html")),
   );
-
-// mewajibkan login untuk kelompok API berikut.
 for (const prefix of [
   "/api/customer",
   "/api/owner",
+  "/api/orders",
   "/api/account",
-  "/api/admin/reviews",
 ])
   app.use(prefix, requireLogin);
-
-// membatasi akses ke API peta dan bantuan serta melindungi API tiket dan notifikasi.
 app.use("/api/map-config", requireLogin, denyPartner);
 app.use("/api/support", requireLogin, denyPartner);
-for (const prefix of ["/api/admin/support-tickets", "/api/notifications"])
+for (const prefix of [
+  "/api/admin/support-tickets",
+  "/api/admin/monitoring",
+  "/api/admin/accounts",
+  "/api/admin/workshops",
+  "/api/notifications",
+])
   app.use(prefix, requireLogin);
-
-// memasang rute bantuan, audit, dan transaksi.
-app.use(require("./bengkelin/routes/support").createSupportRouter());
-app.use(require("./bengkelin/routes/audit").createAuditRouter());
-app.use(require("./bengkelin/routes/commerce").createCommerceRouter());
-
-// menampilkan halaman notifikasi setelah pengguna login.
+app.use(require("./kunciGarasi/routes/support").createSupportRouter());
+app.use(require("./kunciGarasi/routes/audit").createAuditRouter());
+app.use(require("./kunciGarasi/routes/commerce").createCommerceRouter());
 app.get("/notifications.html", requireLogin, (req, res) =>
   res.sendFile(path.join(__dirname, "pages", "notifications.html")),
 );
 
-// menampilkan halaman pengelolaan bantuan khusus admin.
+app.get("/admin-monitoring.html", requireLogin, (req, res) => {
+  if (req.account.role !== "admin")
+    return res.status(403).send("Halaman ini hanya untuk admin.");
+  res.sendFile(path.join(__dirname, "pages", "admin-monitoring.html"));
+});
+
+app.get("/admin-accounts.html", requireLogin, (req, res) => {
+  if (req.account.role !== "admin")
+    return res.status(403).send("Halaman ini hanya untuk admin.");
+  res.sendFile(path.join(__dirname, "pages", "admin-accounts.html"));
+});
+
 app.get("/support-admin.html", requireLogin, (req, res) => {
   if (req.account.role !== "admin")
     return res.status(403).send("Halaman ini hanya untuk admin.");
-  res.sendFile(path.join(__dirname, "pages", "support-admin.html"));
+  res.sendFile(path.join(__dirname, "pages", "admin-monitoring.html"));
 });
 
-// melayani file publik dan mengembalikan 404 untuk endpoint API yang tidak ditemukan.
+app.get("/help.html", requireLogin, (req, res) =>
+  res.sendFile(path.join(__dirname, "public", "help.html")),
+);
+app.get(
+  ["/estimate.html", "/forgot-password.html", "/reset-password.html"],
+  (req, res) => res.status(404).send("Halaman tidak ditemukan."),
+);
+const staticAssetExt =
+  /\.(css|js|png|jpe?g|gif|svg|ico|webp|woff2?|ttf|eot|map)$/i;
+app.use((req, res, next) => {
+  if (req.method !== "GET" || req.path.startsWith("/api/")) return next();
+  if (staticAssetExt.test(req.path)) return next();
+  if (
+    [
+      "/",
+      "/home.html",
+      "/login.html",
+      "/login-mitra.html",
+      "/registrasi.html",
+      "/registrasi-mitra.html",
+      "/terms.html",
+      "/privacy.html",
+      "/partner-terms.html",
+      "/partner-privacy.html",
+    ].includes(req.path)
+  ) {
+    return next();
+  }
+  return requireLogin(req, res, next);
+});
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/api", (req, res) =>
   res.status(404).json({ message: "Endpoint tidak ditemukan" }),
 );
-
-// menangani error permintaan dan mencatat error server.
 app.use((error, req, res, next) => {
   if (error.status && error.status !== 413)
     return res.status(error.status).json({ message: error.message });
@@ -335,22 +346,16 @@ app.use((error, req, res, next) => {
     .status(500)
     .json({ message: "Terjadi kesalahan server. Periksa koneksi database." });
 });
-
-// menjalankan server jika file ini dijalankan langsung.
 if (require.main === module)
   app.listen(PORT, () => console.log(`Buka http://localhost:${PORT}/`));
-
-// menjadwalkan pemeliharaan setiap menit saat file dijalankan langsung.
 if (require.main === module) {
   const timer = setInterval(
     () =>
-      require("./bengkelin/services/operations")
+      require("./kunciGarasi/services/operations")
         .maintain()
         .catch((e) => console.error("Pemeliharaan gagal:", e.code || e.name)),
     60000,
   );
   timer.unref();
 }
-
-// mengekspor aplikasi Express agar dapat digunakan dari modul lain.
 module.exports = app;

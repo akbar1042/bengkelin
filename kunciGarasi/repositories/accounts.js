@@ -14,12 +14,12 @@ function createAccountRepository(database = db) {
       const row = rows[0];
       return row
         ? {
-          id: row.id,
-          email: row.email,
-          authVersion: Number(row.auth_version ?? 0),
-          role: row.role,
-          dashboardUrl: DASHBOARD_PATHS[row.role],
-        }
+            id: row.id,
+            email: row.email,
+            authVersion: Number(row.auth_version ?? 0),
+            role: row.role,
+            dashboardUrl: DASHBOARD_PATHS[row.role],
+          }
         : null;
     },
     async adminSummary() {

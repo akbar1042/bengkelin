@@ -102,7 +102,6 @@ const db = require("../db");
     console.log(
       "PASS: model nyata menjawab bahasa Indonesia, percakapan lanjutan, dan urgensi rem darurat.",
     );
-
   } finally {
     // Menghapus akun sementara agar database tetap bersih
     await db.execute("DELETE FROM users WHERE email = ?", [email]);
@@ -117,7 +116,7 @@ const db = require("../db");
     await db.end();
   }
 
-// Menangkap dan menampilkan error jika pengujian gagal
+  // Menangkap dan menampilkan error jika pengujian gagal
 })().catch((e) => {
   console.error(e);
   process.exitCode = 1;

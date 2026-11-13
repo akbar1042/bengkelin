@@ -1,0 +1,1 @@
+Google Maps logo: official unmodified asset from https://developers.google.com/static/maps/documentation/images/Google_Maps_Attribution_Assets.zip. Usage guidelines: https://developers.google.com/maps/documentation/places/web-service/policies.

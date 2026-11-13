@@ -42,12 +42,12 @@ function createDashboardRouter({
         role === "customer"
           ? path.join(__dirname, "..", "public", "index.html")
           : path.join(
-            __dirname,
-            "..",
-            "..",
-            "pages",
-            "dashboard-" + role + ".html",
-          ),
+              __dirname,
+              "..",
+              "..",
+              "pages",
+              "dashboard-" + role + ".html",
+            ),
       ),
     );
     router.get("/api/dashboard/" + role, roleOnly(role), async (req, res) => {
