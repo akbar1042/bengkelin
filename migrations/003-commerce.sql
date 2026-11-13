@@ -22,19 +22,3 @@ CREATE TABLE IF NOT EXISTS service_order_events (
  FOREIGN KEY(order_id) REFERENCES service_orders(id) ON DELETE CASCADE,
  FOREIGN KEY(actor_id) REFERENCES users(id)
 );
-CREATE TABLE IF NOT EXISTS workshop_favorites (
- user_id INT UNSIGNED NOT NULL, workshop_id INT UNSIGNED NOT NULL,
- created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
- PRIMARY KEY(user_id,workshop_id), FOREIGN KEY(user_id) REFERENCES users(id),
- FOREIGN KEY(workshop_id) REFERENCES partner_workshops(id)
-);
-CREATE TABLE IF NOT EXISTS service_reviews (
- id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, order_id INT UNSIGNED NOT NULL UNIQUE,
- customer_id INT UNSIGNED NOT NULL, workshop_id INT UNSIGNED NOT NULL,
- rating TINYINT UNSIGNED NOT NULL, content VARCHAR(1500) NOT NULL,
- status ENUM('pending','approved','rejected') NOT NULL DEFAULT 'pending',
- moderation_note VARCHAR(500) NULL, moderated_by INT UNSIGNED NULL,
- created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
- FOREIGN KEY(order_id) REFERENCES service_orders(id), FOREIGN KEY(customer_id) REFERENCES users(id),
- FOREIGN KEY(workshop_id) REFERENCES partner_workshops(id), FOREIGN KEY(moderated_by) REFERENCES users(id)
-);

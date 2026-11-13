@@ -23,11 +23,9 @@ function loginLimit(database = db) {
         );
         if (rows[0].attempts > max) {
           res.set("Retry-After", "900");
-          return res
-            .status(429)
-            .json({
-              message: "Terlalu banyak percobaan login. Tunggu 15 menit.",
-            });
+          return res.status(429).json({
+            message: "Terlalu banyak percobaan login. Tunggu 15 menit.",
+          });
         }
       }
       next();

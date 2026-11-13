@@ -4,22 +4,54 @@ process.env.SESSION_COOKIE_SECURE = "false";
 const assert = require("node:assert/strict"),
   app = require("../login"),
   db = require("../db");
-const {removePhotos}=require('../bengkelin/services/partner-media');
-const {TERMS_VERSION}=require('../bengkelin/lib/partner-input');
-const testIP='198.18.'+Math.floor(Math.random()*256)+'.'+Math.floor(Math.random()*256);
-function partnerForm(fields){
-  const body=new FormData();
-  body.append('data',JSON.stringify({vehicleTypes:['mobil'],hours:{days:[1,2,3,4,5,6],open:'08:00',close:'17:00'},termsAccepted:true,privacyAccepted:true,termsVersion:TERMS_VERSION,...fields}));
-  const photo=new Blob([Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAEUlEQVQImWNwCU1zCU1jgFAAG2oD/ST9ke8AAAAASUVORK5CYII=','base64')],{type:'image/png'});
-  body.append('workshopPhotos',photo,'bengkel.png');
-  if(fields.pickup)body.append('towPhoto',photo,'derek.png');
+const { removePhotos } = require("../kunciGarasi/services/partner-media");
+const { TERMS_VERSION } = require("../kunciGarasi/lib/partner-input");
+const testIP =
+  "198.18." +
+  Math.floor(Math.random() * 256) +
+  "." +
+  Math.floor(Math.random() * 256);
+function partnerForm(fields) {
+  const body = new FormData();
+  body.append(
+    "data",
+    JSON.stringify({
+      vehicleTypes: ["mobil"],
+      hours: { days: [1, 2, 3, 4, 5, 6], open: "08:00", close: "17:00" },
+      termsAccepted: true,
+      privacyAccepted: true,
+      termsVersion: TERMS_VERSION,
+      ...fields,
+    }),
+  );
+  const photo = new Blob(
+    [
+      Buffer.from(
+        "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAEUlEQVQImWNwCU1zCU1jgFAAG2oD/ST9ke8AAAAASUVORK5CYII=",
+        "base64",
+      ),
+    ],
+    { type: "image/png" },
+  );
+  body.append("workshopPhotos", photo, "bengkel.png");
+  if (fields.pickup) body.append("towPhoto", photo, "derek.png");
   return body;
 }
-async function cleanPhotos(ids){
-  const placeholders=ids.map(()=>'?').join(',');
-  const [rows]=await db.execute(`SELECT d.details FROM partner_workshop_details d JOIN partner_workshops p ON p.id=d.workshop_id WHERE p.owner_user_id IN (${placeholders})`,ids);
-  for(const {details} of rows){const data=typeof details==='string'?JSON.parse(details):details;await removePhotos(data?.photos||[]);}
-  for(const id of ids)await db.execute("DELETE FROM app_sessions WHERE JSON_EXTRACT(data,'$.user.id')=?",[id]);
+async function cleanPhotos(ids) {
+  const placeholders = ids.map(() => "?").join(",");
+  const [rows] = await db.execute(
+    `SELECT d.details FROM partner_workshop_details d JOIN partner_workshops p ON p.id=d.workshop_id WHERE p.owner_user_id IN (${placeholders})`,
+    ids,
+  );
+  for (const { details } of rows) {
+    const data = typeof details === "string" ? JSON.parse(details) : details;
+    await removePhotos(data?.photos || []);
+  }
+  for (const id of ids)
+    await db.execute(
+      "DELETE FROM app_sessions WHERE JSON_EXTRACT(data,'$.user.id')=?",
+      [id],
+    );
 }
 
 (async () => {
@@ -40,10 +72,14 @@ async function cleanPhotos(ids){
       method: body ? "POST" : "GET",
       headers: {
         "X-Forwarded-For": testIP,
-        ...(body instanceof FormData ? {} : {"Content-Type": "application/json"}),
+        ...(body instanceof FormData
+          ? {}
+          : { "Content-Type": "application/json" }),
         ...(cookie ? { cookie } : {}),
       },
-      ...(body ? { body: body instanceof FormData ? body : JSON.stringify(body) } : {}),
+      ...(body
+        ? { body: body instanceof FormData ? body : JSON.stringify(body) }
+        : {}),
       redirect: "manual",
     });
   const login = async (index) => {
@@ -81,14 +117,24 @@ async function cleanPhotos(ids){
     return (await r.json()).id;
   };
   const review = async (id, status) => {
-    const queue=await (await request('/api/admin/partners',null,cookies[2])).json();
-    const reviewVersion=queue.data.find(w=>w.id===id).reviewVersion;
-    const r=await request('/api/admin/partners/'+id+'/review',{status,note:'TEST ONLY review',reviewVersion},cookies[2]);
-    assert.equal(r.status,200);
+    const queue = await (
+      await request("/api/admin/partners", null, cookies[2])
+    ).json();
+    const reviewVersion = queue.data.find((w) => w.id === id).reviewVersion;
+    const r = await request(
+      "/api/admin/partners/" + id + "/review",
+      { status, note: "TEST ONLY review", reviewVersion },
+      cookies[2],
+    );
+    assert.equal(r.status, 200);
   };
-  const revoke=async id=>{
-    const r=await request('/api/admin/partners/'+id+'/revoke',{note:'TEST ONLY revoke'},cookies[2]);
-    assert.equal(r.status,200);
+  const revoke = async (id) => {
+    const r = await request(
+      "/api/admin/partners/" + id + "/revoke",
+      { note: "TEST ONLY revoke" },
+      cookies[2],
+    );
+    assert.equal(r.status, 200);
   };
   try {
     assert.equal((await request("/dashboard")).status, 302);
@@ -127,9 +173,9 @@ async function cleanPhotos(ids){
     assert.equal(r.headers.get("location"), "/dashboard/partner");
     r = await request("/landing.html", null, cookies[0]);
     assert.equal(r.headers.get("location"), "/dashboard/partner");
-    await page("/assets/bengkelin/index.html", 0, 403);
-    await page("/assets/bengkelin/index%2ehtml", 0, 403);
-    await page("/assets/bengkelin/INDEX.HTML", 0, 403);
+    await page("/assets/kunciGarasi/index.html", 0, 403);
+    await page("/assets/kunciGarasi/index%2ehtml", 0, 403);
+    await page("/assets/kunciGarasi/INDEX.HTML", 0, 403);
     r = await request(
       "/api/dashboard/partner?userId=" + ids[1],
       null,
@@ -164,6 +210,20 @@ async function cleanPhotos(ids){
     data = await r.json();
     assert(data.summary.totalAccounts >= 3);
     assert(data.summary.approvedWorkshops >= 1);
+    await page("/admin-accounts.html", 0, 403);
+    await page("/admin-accounts.html", 2, 200);
+    await page("/api/admin/accounts", 0, 403);
+    await page("/api/admin/workshops", 0, 403);
+    r = await request("/api/admin/accounts", null, cookies[2]);
+    assert.equal(r.status, 200);
+    data = await r.json();
+    assert(Array.isArray(data.data) && data.data.length >= 3);
+    r = await request("/api/admin/workshops?status=approved", null, cookies[2]);
+    assert.equal(r.status, 200);
+    data = await r.json();
+    assert(
+      Array.isArray(data.data) && data.data.some((w) => w.id === adminWorkshop),
+    );
     await db.execute("UPDATE users SET role='customer' WHERE id=?", [ids[2]]);
     assert.equal((await me(2)).user.role, "partner");
     await page("/api/dashboard/admin", 2, 403);

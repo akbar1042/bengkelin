@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="referrer" content="same-origin" />
+    <title>Dashboard pelanggan — Bengkelin</title>
+    <link rel="stylesheet" href="/frontend.css" />
+    <link rel="stylesheet" href="/brand.css" />
+  </head>
+  <body data-dashboard-role="customer">
+    <header>
+      <a class="brand-mark" href="/"
+        >bengkel<span class="brand-mark__suffix">In</span></a
+      >
+      <nav>
+        <a href="/">Beranda</a><a href="/dashboard">Dashboard saya</a
+        ><a href="/search.html">Cari bengkel</a
+        ><a href="/ai.html">Konsultasi AI</a
+        ><a href="/support.html">Customer Service</a>
+      </nav>
+    </header>
+    <main>
+      <section class="feature-links">
+        <a href="/account-settings.html">Pengaturan akun</a
+        ><a href="/help.html">Pusat bantuan</a
+        ><a href="/orders.html">Pesanan saya</a>
+      </section>
+      <h1>Dashboard pelanggan</h1>
+      <p>
+        Akun <span id="dashboardEmail">Memuat…</span> ·
+        <span id="dashboardRole"></span>
+      </p>
+      <button id="dashboardLogout" type="button">Keluar</button>
+      <section>
+        <h2>Pilih fitur</h2>
+        <div class="feature-links">
+          <a href="/search.html">Cari bengkel dan peta</a
+          ><a href="/ai.html">Konsultasi AI motor/mobil</a
+          ><a href="/registrasi-mitra.html">Daftarkan bengkel</a>
+        </div>
+      </section>
+      <h2>Pengajuan kemitraan Anda</h2>
+      <ul id="dashboardSummary"></ul>
+      <ul id="dashboardItems"></ul>
+      <button id="refreshDashboard" type="button">Perbarui status</button>
+      <p id="dashboardStatus" role="status"></p>
+    </main>
+    <script src="/app.js"></script>
+    <script src="/dashboard.js"></script>
+    <script src="/notifications.js"></script>
+  </body>
+</html>
