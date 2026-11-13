@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="same-origin" name="referrer" />
-    <title>Pengaturan Akun — Bengkelin</title>
+    <title>Pengaturan Akun — KunciGarasi</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com" rel="preconnect" />
@@ -74,136 +74,215 @@
   <body
     class="min-h-screen bg-bengkelin-navy text-slate-200 antialiased flex flex-col selection:bg-bengkelin-cyan/20 selection:text-bengkelin-cyan"
   >
-    <!-- TOP NAVIGATION BAR -->
+    <!-- TOP NAVBAR ADAPTIF BERDASARKAN ROLE (CUSTOMER / MITRA / ADMIN) -->
     <header
-      class="sticky top-0 z-50 glass-panel border-b border-white/10 bg-[#0b1326]/90 backdrop-blur-md"
+      class="sticky top-0 z-50 bg-[#0b1326]/95 backdrop-blur-xl border-b border-white/10"
     >
       <div
-        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3"
+        class="min-h-[64px] w-full max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4"
       >
-        <!-- Brand Logo & Nav Links -->
-        <div class="flex items-center gap-4 xl:gap-6 min-w-0">
-          <a class="brand-mark" href="/login.html"
-            >bengkel<span class="brand-mark__suffix">In</span></a
+        <!-- Kiri: Brand Logo & Link Dinamis Sesuai Role -->
+        <div class="flex items-center gap-6 lg:gap-8 min-w-0">
+          <a
+            id="accountBrandLink"
+            href="/dashboard"
+            class="flex items-baseline tracking-[-0.04em] select-none shrink-0 focus:outline-none"
           >
+            <h1 id="accountBrandTitle" class="brand-mark !m-0 !text-xl">
+              Kunci<span class="brand-mark__suffix">Garasi</span>
+            </h1>
+          </a>
 
-          <!-- Navigation Items -->
+          <!-- Nav untuk Pelanggan -->
           <nav
-            class="hidden md:flex items-center gap-1 xl:gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            id="navCustomer"
+            aria-label="Navigasi pelanggan"
+            class="hidden items-center gap-5 lg:gap-6 text-xs xl:text-sm whitespace-nowrap"
           >
             <a
               href="/landing.html"
-              class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-medium text-bengkelin-muted hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+              class="font-medium text-slate-300 hover:text-white transition-colors"
             >
               Beranda
             </a>
             <a
               href="/search.html"
-              class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-medium text-bengkelin-muted hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+              class="font-medium text-slate-300 hover:text-white transition-colors"
             >
               Cari bengkel
             </a>
             <a
               href="/ai.html"
-              class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-medium text-bengkelin-muted hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+              class="font-medium text-slate-300 hover:text-white transition-colors"
             >
               Konsultasi AI
             </a>
             <a
               href="/support.html"
-              class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-medium text-bengkelin-muted hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+              class="font-medium text-slate-300 hover:text-white transition-colors"
             >
               Customer Service
             </a>
             <a
+              href="/account-settings.html"
+              class="font-semibold text-[#4cd7f6] transition-colors"
+            >
+              Pengaturan akun
+            </a>
+            <a
               href="/help.html"
-              class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-medium text-bengkelin-muted hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+              class="font-medium text-slate-300 hover:text-white transition-colors"
             >
               Pusat bantuan
             </a>
+          </nav>
+
+          <!-- Nav untuk Mitra -->
+          <nav
+            id="navPartner"
+            aria-label="Navigasi dashboard mitra"
+            class="hidden items-center gap-5 lg:gap-6 text-xs xl:text-sm whitespace-nowrap"
+          >
+            <a
+              href="/dashboard"
+              class="font-medium text-slate-300 hover:text-white transition-colors"
+            >
+              Dashboard saya
+            </a>
+            <a
+              href="/owner-orders.html"
+              class="font-medium text-slate-300 hover:text-white transition-colors"
+            >
+              Kelola pesanan bengkel
+            </a>
+            <a
+              href="/owner-workshops.html"
+              class="font-medium text-slate-300 hover:text-white transition-colors"
+            >
+              Ubah profil bengkel
+            </a>
             <a
               href="/account-settings.html"
-              class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-bengkelin-cyan hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+              class="font-semibold text-[#4cd7f6] transition-colors"
             >
               Pengaturan akun
+            </a>
+            <a
+              href="/help.html"
+              class="font-medium text-slate-300 hover:text-white transition-colors"
+            >
+              Pusat bantuan
+            </a>
+          </nav>
+
+          <!-- Nav untuk Admin -->
+          <nav
+            id="navAdmin"
+            aria-label="Navigasi dashboard admin"
+            class="hidden items-center gap-5 lg:gap-6 text-xs xl:text-sm whitespace-nowrap"
+          >
+            <a
+              href="/dashboard/admin"
+              class="font-medium text-slate-300 hover:text-white transition-colors"
+            >
+              Dashboard saya
+            </a>
+            <a
+              href="/admin-accounts.html"
+              class="font-medium text-slate-300 hover:text-white transition-colors"
+            >
+              Kelola akun
+            </a>
+            <a
+              href="/admin-monitoring.html"
+              class="font-medium text-slate-300 hover:text-white transition-colors"
+            >
+              Log monitoring
+            </a>
+            <a
+              href="/account-settings.html"
+              class="font-semibold text-[#4cd7f6] transition-colors"
+            >
+              Pengaturan akun
+            </a>
+            <a
+              href="/help.html"
+              class="font-medium text-slate-300 hover:text-white transition-colors"
+            >
+              Pusat bantuan
             </a>
           </nav>
         </div>
 
-        <!-- Tombol Auth & Widget Profil Kanan Upper Header -->
-        <div class="flex items-center gap-3">
-          <div class="flex items-center gap-2 border-r border-white/10 pr-4">
-            <!-- Tombol Keranjang -->
+        <!-- Kanan: Ikon Keranjang/Notifikasi, Profil & Logout -->
+        <div class="flex items-center gap-3 sm:gap-4 shrink-0">
+          <div
+            id="headerQuickIcons"
+            class="flex items-center gap-2 border-r border-white/10 pr-3"
+          >
             <a
+              id="headerCartIcon"
               href="/orders.html"
-              class="p-2 rounded-xl text-slate-400 hover:text-bengkelin-cyan hover:bg-white/5 transition-all flex items-center justify-center"
-              title="Keranjang"
+              class="hidden p-2 rounded-xl text-slate-300 hover:text-[#4cd7f6] hover:bg-white/5 transition-all items-center justify-center"
+              title="Pesanan Saya"
             >
-              <span class="material-symbols-outlined text-[24px]"
+              <span class="material-symbols-outlined text-[22px]"
                 >shopping_cart</span
               >
             </a>
-
-            <!-- Tombol Notifikasi -->
             <a
+              id="headerBellIcon"
               href="/notifications.html"
-              class="relative p-2 rounded-xl text-slate-400 hover:text-bengkelin-cyan hover:bg-white/5 transition-all flex items-center justify-center"
+              class="relative p-2 rounded-xl text-slate-300 hover:text-[#4cd7f6] hover:bg-white/5 transition-all flex items-center justify-center"
               title="Notifikasi"
             >
-              <span class="material-symbols-outlined text-[24px]"
+              <span class="material-symbols-outlined text-[22px]"
                 >notifications</span
               >
               <span
-                class="absolute top-2 right-2 w-2 h-2 rounded-full bg-bengkelin-cyan animate-pulse"
+                data-notification-dot
+                hidden
+                aria-hidden="true"
+                class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#4cd7f6]"
               ></span>
             </a>
           </div>
 
-          <!-- Dynamic Account Profile Widget (Di-render oleh app.js) -->
-          <div data-account-profile hidden>
-            <div
-              class="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-white/20 transition-all"
+          <div
+            data-account-profile
+            class="flex items-center gap-2 pl-3 border-l border-white/10"
+          >
+            <strong
+              data-profile-avatar
+              class="w-7 h-7 rounded-full bg-[#1a243b] border border-[#4cd7f6]/40 flex items-center justify-center font-bold text-[#4cd7f6] text-[11px] shrink-0"
+              aria-hidden="true"
+              >--</strong
             >
-              <strong
-                data-profile-avatar
-                class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center font-bold text-white text-xs border border-white/20 shadow-inner shrink-0"
-                aria-hidden="true"
-              ></strong>
-              <span class="hidden sm:flex flex-col text-left">
-                <span
-                  data-profile-email
-                  class="text-xs font-medium text-slate-200 truncate max-w-[160px]"
-                ></span>
-                <small
-                  data-profile-role
-                  class="text-[10px] font-mono text-bengkelin-cyan"
-                ></small>
-              </span>
+            <div class="hidden lg:flex flex-col text-left">
+              <span
+                id="dashboardEmail"
+                data-profile-email
+                class="text-xs font-medium text-slate-200 max-w-[160px] truncate leading-tight"
+                >Memuat...</span
+              >
+              <small
+                id="dashboardRole"
+                data-profile-role
+                class="text-[10px] font-mono text-[#4cd7f6] leading-tight"
+                >Akun</small
+              >
             </div>
           </div>
 
-          <!-- Tombol Logout -->
           <button
-            type="button"
+            id="dashboardLogout"
             data-landing-logout
-            title="Keluar Akun"
-            aria-label="Keluar Akun"
-            class="p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/5 hover:border-rose-500/20 transition-all flex items-center justify-center"
+            type="button"
+            title="Keluar"
+            aria-label="Keluar"
+            class="p-1.5 text-slate-400 hover:text-rose-400 transition-colors cursor-pointer"
           >
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.8"
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-              ></path>
-            </svg>
+            <span class="material-symbols-outlined text-[19px]">logout</span>
           </button>
         </div>
       </div>
@@ -235,7 +314,7 @@
           </h1>
           <p class="text-xs sm:text-sm text-bengkelin-muted mt-1 max-w-2xl">
             Kelola kata sandi, keamanan profil, dan status keanggotaan akun
-            Bengkelin Anda.
+            KunciGarasi Anda.
           </p>
         </div>
       </div>
@@ -264,7 +343,7 @@
               <span
                 class="w-2 h-2 rounded-full bg-bengkelin-cyan animate-pulse"
               ></span>
-              <span data-card-role>Pelanggan</span>
+              <span data-card-role>Mitra Bengkel</span>
             </p>
           </div>
         </div>
@@ -274,7 +353,7 @@
         >
           Role:
           <span data-card-role-badge class="text-bengkelin-cyan font-semibold"
-            >Pelanggan</span
+            >Mitra Bengkel</span
           >
         </div>
       </div>
@@ -332,8 +411,8 @@
                 id="newPassword"
                 name="newPassword"
                 required
-                minlength="6"
-                placeholder="Minimal 6 karakter"
+                minlength="8"
+                placeholder="Minimal 8 karakter"
                 class="w-full px-4 py-3 bg-black/50 border border-white/10 rounded-2xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-bengkelin-cyan focus:ring-1 focus:ring-bengkelin-cyan transition-all"
               />
             </div>
@@ -350,17 +429,25 @@
                 id="confirmPassword"
                 name="confirmPassword"
                 required
-                minlength="6"
+                minlength="8"
                 placeholder="Ulangi password baru"
                 class="w-full px-4 py-3 bg-black/50 border border-white/10 rounded-2xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-bengkelin-cyan focus:ring-1 focus:ring-bengkelin-cyan transition-all"
               />
             </div>
           </div>
 
+          <p
+            id="passwordStatus"
+            role="status"
+            aria-live="polite"
+            class="text-xs font-mono min-h-[16px]"
+          ></p>
+
           <div class="flex justify-end pt-2">
             <button
+              id="savePasswordBtn"
               type="submit"
-              class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-bengkelin-cyan to-blue-500 hover:brightness-110 text-black font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-cyan-500/15 active:scale-95 cursor-pointer"
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-bengkelin-cyan to-blue-500 hover:brightness-110 text-black font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-cyan-500/15 active:scale-95 cursor-pointer disabled:opacity-50"
             >
               <span class="material-symbols-outlined text-[18px]">save</span>
               <span>Simpan Password Baru</span>
@@ -371,6 +458,7 @@
 
       <!-- DANGER ZONE CARD (PENONAKTIFAN AKUN) -->
       <section
+        id="deactivateSection"
         class="glass-panel rounded-3xl p-6 sm:p-8 border border-rose-500/20 bg-gradient-to-r from-rose-500/5 via-transparent to-transparent shadow-xl space-y-6"
       >
         <div class="flex items-center gap-3 border-b border-white/10 pb-4">
@@ -383,12 +471,22 @@
             <h2 class="text-base sm:text-lg font-heading font-bold text-white">
               Penonaktifan Akun
             </h2>
-            <p class="text-xs text-rose-300/80">
+            <p id="deactivateSubtitle" class="text-xs text-rose-300/80">
               Tindakan ini permanen. Pastikan semua pesanan aktif Anda telah
               selesai dahulu.
             </p>
           </div>
         </div>
+
+        <p
+          id="adminDeactivateNotice"
+          hidden
+          class="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-300 leading-relaxed"
+        >
+          Akun dengan role <strong>Admin</strong> tidak dapat langsung
+          dinonaktifkan demi keamanan sistem. Cabut role admin terlebih dahulu
+          melalui skrip manajemen admin jika ingin menonaktifkan akun ini.
+        </p>
 
         <form id="deactivateAccountForm" class="space-y-4">
           <div>
@@ -430,10 +528,18 @@
             </p>
           </div>
 
+          <p
+            id="deactivateStatus"
+            role="status"
+            aria-live="polite"
+            class="text-xs font-mono min-h-[16px]"
+          ></p>
+
           <div class="flex justify-end pt-2">
             <button
+              id="deactivateBtn"
               type="submit"
-              class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-rose-600/20 active:scale-95 cursor-pointer"
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-rose-600/20 active:scale-95 cursor-pointer disabled:opacity-50"
             >
               <span class="material-symbols-outlined text-[18px]"
                 >delete_forever</span
@@ -454,7 +560,7 @@
       >
         <div class="flex items-center gap-3">
           <span class="brand-mark brand-mark--small"
-            >bengkel<span class="brand-mark__suffix">In</span></span
+            >Kunci<span class="brand-mark__suffix">Garasi</span></span
           >
           <span>— Account &amp; Security Settings</span>
         </div>
@@ -481,11 +587,60 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        // Menyinkronkan card profil bawah dengan widget header atas yang diisi oleh app.js
-        const syncProfileData = () => {
-          const topAvatar = document.querySelector("[data-profile-avatar]");
-          const topEmail = document.querySelector("[data-profile-email]");
-          const topRole = document.querySelector("[data-profile-role]");
+        const roleLabels = {
+          customer: "Pelanggan Terverifikasi",
+          partner: "Mitra Bengkel",
+          admin: "Admin Platform",
+        };
+
+        const applyRoleLayout = (user) => {
+          if (!user) return;
+          const role = user.role || "customer";
+          const navCustomer = document.getElementById("navCustomer");
+          const navPartner = document.getElementById("navPartner");
+          const navAdmin = document.getElementById("navAdmin");
+          const headerQuickIcons = document.getElementById("headerQuickIcons");
+          const headerCartIcon = document.getElementById("headerCartIcon");
+          const brandLink = document.getElementById("accountBrandLink");
+          const brandTitle = document.getElementById("accountBrandTitle");
+
+          [navCustomer, navPartner, navAdmin].forEach((nav) => {
+            if (nav) {
+              nav.classList.add("hidden");
+              nav.classList.remove("md:flex");
+            }
+          });
+
+          if (role === "partner") {
+            navPartner?.classList.remove("hidden");
+            navPartner?.classList.add("md:flex");
+            if (brandLink) brandLink.href = "/dashboard/partner";
+          } else if (role === "admin") {
+            navAdmin?.classList.remove("hidden");
+            navAdmin?.classList.add("md:flex");
+            if (headerCartIcon) headerCartIcon.classList.add("hidden");
+            if (brandLink) brandLink.href = "/dashboard/admin";
+            if (brandTitle) {
+              brandTitle.innerHTML =
+                'Kunci<span class="brand-mark__suffix">Garasi</span>';
+            }
+            const adminNotice = document.getElementById(
+              "adminDeactivateNotice",
+            );
+            const deactivateForm = document.getElementById(
+              "deactivateAccountForm",
+            );
+            if (adminNotice) adminNotice.hidden = false;
+            if (deactivateForm) deactivateForm.hidden = true;
+          } else {
+            navCustomer?.classList.remove("hidden");
+            navCustomer?.classList.add("md:flex");
+            if (headerCartIcon) {
+              headerCartIcon.classList.remove("hidden");
+              headerCartIcon.classList.add("flex");
+            }
+            if (brandLink) brandLink.href = "/landing.html";
+          }
 
           const cardAvatar = document.querySelector("[data-card-avatar]");
           const cardEmail = document.querySelector("[data-card-email]");
@@ -494,31 +649,125 @@
             "[data-card-role-badge]",
           );
 
-          if (topEmail && cardEmail && topEmail.textContent.trim()) {
-            cardEmail.textContent = topEmail.textContent.trim();
-          }
-          if (topAvatar && cardAvatar && topAvatar.textContent.trim()) {
-            cardAvatar.textContent = topAvatar.textContent.trim();
-          }
-          if (topRole && topRole.textContent.trim()) {
-            if (cardRole) cardRole.textContent = topRole.textContent.trim();
-            if (cardRoleBadge)
-              cardRoleBadge.textContent = topRole.textContent.trim();
-          }
+          if (cardEmail && user.email) cardEmail.textContent = user.email;
+          if (cardAvatar && user.email)
+            cardAvatar.textContent = user.email.slice(0, 2).toUpperCase();
+          const roleText = roleLabels[role] || "Akun";
+          if (cardRole) cardRole.textContent = roleText;
+          if (cardRoleBadge) cardRoleBadge.textContent = roleText;
         };
 
-        syncProfileData();
-        setTimeout(syncProfileData, 100);
-        setTimeout(syncProfileData, 500);
+        window.Bengkel.request("/api/me", { cache: "no-store" })
+          .then(({ user }) => {
+            window.Bengkel.renderAccountProfiles(user);
+            applyRoleLayout(user);
+          })
+          .catch(() => {});
 
-        const navWidget = document.querySelector("[data-account-profile]");
-        if (navWidget) {
-          const observer = new MutationObserver(syncProfileData);
-          observer.observe(navWidget, {
-            childList: true,
-            subtree: true,
-            characterData: true,
-            attributes: true,
+        // Handler Form Ganti Password
+        const changePasswordForm =
+          document.getElementById("changePasswordForm");
+        const passwordStatus = document.getElementById("passwordStatus");
+        const savePasswordBtn = document.getElementById("savePasswordBtn");
+
+        if (changePasswordForm) {
+          changePasswordForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            if (
+              savePasswordBtn.disabled ||
+              changePasswordForm.dataset.busy === "true"
+            )
+              return;
+            const currentPassword =
+              document.getElementById("currentPassword").value;
+            const newPassword = document.getElementById("newPassword").value;
+            const confirmPassword =
+              document.getElementById("confirmPassword").value;
+
+            if (newPassword !== confirmPassword) {
+              passwordStatus.className = "text-xs font-mono text-rose-400";
+              passwordStatus.textContent =
+                "Konfirmasi password baru tidak cocok.";
+              return;
+            }
+            if (newPassword.length < 8) {
+              passwordStatus.className = "text-xs font-mono text-rose-400";
+              passwordStatus.textContent = "Password baru minimal 8 karakter.";
+              return;
+            }
+
+            changePasswordForm.dataset.busy = "true";
+            savePasswordBtn.disabled = true;
+            passwordStatus.className = "text-xs font-mono text-bengkelin-cyan";
+            passwordStatus.textContent = "Menyimpan password baru...";
+
+            try {
+              const res = await window.Bengkel.request(
+                "/api/account/password",
+                window.Bengkel.json("POST", {
+                  currentPassword,
+                  password: newPassword,
+                }),
+              );
+              passwordStatus.className = "text-xs font-mono text-emerald-400";
+              passwordStatus.textContent =
+                res.message ||
+                "Password berhasil diganti. Mengalihkan ke halaman login...";
+              setTimeout(() => window.location.assign("/login.html"), 1200);
+            } catch (error) {
+              passwordStatus.className = "text-xs font-mono text-rose-400";
+              passwordStatus.textContent = error.message;
+              delete changePasswordForm.dataset.busy;
+              savePasswordBtn.disabled = false;
+            }
+          });
+        }
+
+        // Handler Form Penonaktifan Akun
+        const deactivateForm = document.getElementById("deactivateAccountForm");
+        const deactivateStatus = document.getElementById("deactivateStatus");
+        const deactivateBtn = document.getElementById("deactivateBtn");
+
+        if (deactivateForm) {
+          deactivateForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            if (
+              deactivateBtn.disabled ||
+              deactivateForm.dataset.busy === "true"
+            )
+              return;
+            const password = document.getElementById("deletePassword").value;
+            const confirmation = document
+              .getElementById("deleteConfirmText")
+              .value.trim();
+
+            if (confirmation !== "HAPUS AKUN") {
+              deactivateStatus.className = "text-xs font-mono text-rose-400";
+              deactivateStatus.textContent =
+                "Ketik tepat frasa HAPUS AKUN (huruf kapital) untuk konfirmasi.";
+              return;
+            }
+
+            deactivateForm.dataset.busy = "true";
+            deactivateBtn.disabled = true;
+            deactivateStatus.className = "text-xs font-mono text-amber-300";
+            deactivateStatus.textContent = "Memproses penonaktifan akun...";
+
+            try {
+              const res = await window.Bengkel.request(
+                "/api/account",
+                window.Bengkel.json("DELETE", { password, confirmation }),
+              );
+              deactivateStatus.className = "text-xs font-mono text-emerald-400";
+              deactivateStatus.textContent =
+                res.message || "Akun telah dinonaktifkan.";
+              setTimeout(() => window.location.assign("/"), 1200);
+            } catch (error) {
+              deactivateStatus.className = "text-xs font-mono text-rose-400";
+              deactivateStatus.textContent = error.message;
+              delete deactivateForm.dataset.busy;
+              deactivateBtn.disabled = false;
+            }
           });
         }
       });

@@ -1,0 +1,128 @@
+.ticket-entry {
+  display: inline-block;
+  padding: 0.65rem 1rem;
+  border-radius: 0.75rem;
+  background: #4cd7f6;
+  color: #003640;
+  font-weight: 700;
+}
+
+#admin-chat {
+  scroll-margin-top: 5rem;
+  background: #131b2e;
+  border: 1px solid #39445d;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+[data-ticket-inbox] [hidden] {
+  display: none !important;
+}
+[data-ticket-inbox] h2,
+[data-ticket-inbox] h3 {
+  font-weight: 700;
+}
+[data-ticket-inbox] label {
+  display: block;
+}
+[data-ticket-inbox] button,
+[data-ticket-inbox] select,
+[data-ticket-inbox] textarea {
+  border: 1px solid #52617e;
+  border-radius: 0.6rem;
+  padding: 0.45rem 0.7rem;
+  background: #0b1326;
+  color: #dae2fd;
+}
+[data-ticket-inbox] button:disabled {
+  opacity: 0.5;
+}
+[data-ticket-inbox] button[aria-pressed="true"] {
+  border-color: #4cd7f6;
+  color: #4cd7f6;
+}
+[data-ticket-inbox] textarea {
+  display: block;
+  width: 100%;
+  margin: 0.4rem 0;
+}
+[data-ticket-inbox] form {
+  margin: 0.75rem 0;
+}
+
+.ticket-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.ticket-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  align-items: start;
+  gap: 0.75rem;
+}
+
+#ticketList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#ticketList li + li {
+  margin-top: 0.4rem;
+}
+#ticketList button {
+  width: 100%;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+#ticketList small {
+  display: block;
+}
+#ticketThread {
+  background: #222a3d;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+}
+
+#ticketLog {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 25rem;
+  margin: 0.5rem 0;
+  overflow-y: auto;
+}
+
+.ticket-bubble {
+  align-self: flex-start;
+  max-width: 90%;
+  border-radius: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: #131b2e;
+  color: #dae2fd;
+}
+
+.ticket-bubble[data-mine] {
+  align-self: flex-end;
+  background: #16465a;
+}
+.ticket-bubble p {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.ticket-bubble small {
+  color: #bfc7d2;
+}
+#ticketStatus {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .ticket-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

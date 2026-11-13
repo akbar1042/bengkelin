@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="id" class="dark scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Dashboard Admin — KunciGarasi</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              surface: "#0b1326",
+              "surface-container-lowest": "#060e20",
+              "surface-container-low": "#131b2e",
+              "surface-container": "#171f33",
+              "surface-container-high": "#222a3d",
+              "surface-container-highest": "#2d3449",
+              primary: "#93ccff",
+              "primary-container": "#3198dc",
+              secondary: "#4cd7f6",
+              "secondary-container": "#03b5d3",
+              "on-surface": "#dae2fd",
+              "on-surface-variant": "#bfc7d2",
+              outline: "#89929b",
+              "outline-variant": "#3f4850",
+            },
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              headline: ["Plus Jakarta Sans", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+          -webkit-font-smoothing: antialiased;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* Auto-styling untuk <li> yang disuntikkan oleh dashboard.js di #dashboardSummary */
+      #dashboardSummary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        gap: 0.875rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      #dashboardSummary > li {
+        border-radius: 1rem;
+        background-color: #1a243b;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 0;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #f1f5f9;
+        line-height: 1.5;
+        transition:
+          border-color 0.2s ease,
+          transform 0.2s ease;
+        overflow: hidden;
+      }
+      #dashboardSummary > li:hover {
+        border-color: rgba(76, 215, 246, 0.45);
+        transform: translateY(-2px);
+      }
+      #dashboardSummary > li > .summary-card-link {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 0.45rem;
+        padding: 1rem 1.15rem;
+        color: inherit;
+        text-decoration: none;
+        height: 100%;
+      }
+      #dashboardSummary > li > .summary-card-link .summary-card-title {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #f8fafc;
+      }
+      #dashboardSummary > li > .summary-card-link .summary-card-action {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: #4cd7f6;
+        letter-spacing: 0.02em;
+      }
+    </style>
+
+    <link rel="stylesheet" href="/frontend.css" />
+    <link rel="stylesheet" href="/brand.css" />
+  </head>
+
+  <body
+    data-dashboard-role="admin"
+    class="min-h-screen bg-[#0b1326] text-slate-100 flex flex-col font-sans selection:bg-[#4cd7f6]/20 selection:text-[#4cd7f6]"
+  >
+    <!-- TOP NAVBAR KHUSUS ADMIN (KONSISTEN DENGAN SEMUA HALAMAN ADMIN & ROLE LAIN) -->
+    <header
+      class="sticky top-0 z-50 bg-[#0b1326]/95 backdrop-blur-xl border-b border-white/10"
+    >
+      <div
+        class="min-h-[64px] w-full max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4"
+      >
+        <!-- Kiri: Brand Logo & Link Navigasi -->
+        <div class="flex items-center gap-6 lg:gap-8 min-w-0">
+          <a
+            href="/dashboard/admin"
+            class="flex items-baseline tracking-[-0.04em] select-none shrink-0 focus:outline-none"
+          >
+            <h1 class="brand-mark !m-0 !text-xl">
+              Kunci<span class="brand-mark__suffix">Garasi</span>
+            </h1>
+          </a>
+
+          <nav
+            aria-label="Navigasi dashboard admin"
+            class="hidden md:flex items-center gap-5 lg:gap-6 text-xs xl:text-sm whitespace-nowrap"
+          >
+            <a
+              href="/dashboard/admin"
+              class="font-semibold text-[#4cd7f6] transition-colors"
+            >
+              Dashboard saya
+            </a>
+            <a
+              href="/admin-accounts.html"
+              class="font-medium text-slate-300 hover:text-white transition-colors"
+            >
+              Kelola akun
+            </a>
+            <a
+              href="/admin-monitoring.html"
+              class="font-medium text-slate-300 hover:text-white transition-colors"
+            >
+              Log monitoring
+            </a>
+            <a
+              href="/account-settings.html"
+              class="font-medium text-slate-300 hover:text-white transition-colors"
+            >
+              Pengaturan akun
+            </a>
+            <a
+              href="/help.html"
+              class="font-medium text-slate-300 hover:text-white transition-colors"
+            >
+              Pusat bantuan
+            </a>
+          </nav>
+        </div>
+
+        <!-- Kanan: Refresh, Notifikasi, Profil Admin & Logout -->
+        <div class="flex items-center gap-3 sm:gap-4 shrink-0">
+          <button
+            id="refreshDashboard"
+            type="button"
+            title="Perbarui ringkasan"
+            class="inline-flex items-center gap-1.5 text-xs font-medium text-slate-300 hover:text-[#4cd7f6] transition-colors whitespace-nowrap cursor-pointer"
+          >
+            <span class="material-symbols-outlined text-[17px] text-[#4cd7f6]"
+              >sync</span
+            >
+            <span class="hidden sm:inline">Perbarui ringkasan</span>
+          </button>
+
+          <a
+            href="/notifications.html"
+            title="Notifikasi"
+            aria-label="Notifikasi"
+            class="relative p-2 rounded-xl text-slate-300 hover:text-[#4cd7f6] hover:bg-white/5 transition-all flex items-center justify-center"
+          >
+            <span class="material-symbols-outlined text-[20px]"
+              >notifications</span
+            >
+            <span
+              data-notification-dot
+              hidden
+              aria-hidden="true"
+              class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#4cd7f6]"
+            ></span>
+          </a>
+
+          <div
+            data-account-profile
+            class="flex items-center gap-2 pl-3 border-l border-white/10"
+          >
+            <strong
+              data-profile-avatar
+              class="w-7 h-7 rounded-full bg-[#1a243b] border border-[#4cd7f6]/40 flex items-center justify-center font-bold text-[#4cd7f6] text-[11px] shrink-0"
+              aria-hidden="true"
+              >AD</strong
+            >
+            <div class="hidden lg:flex flex-col text-left">
+              <span
+                id="dashboardEmail"
+                data-profile-email
+                class="text-xs font-medium text-slate-200 max-w-[140px] truncate leading-tight"
+                >Memuat...</span
+              >
+              <small
+                id="dashboardRole"
+                data-profile-role
+                class="text-[10px] font-mono text-[#4cd7f6] leading-tight"
+                >Admin</small
+              >
+            </div>
+          </div>
+
+          <button
+            id="dashboardLogout"
+            data-landing-logout
+            type="button"
+            title="Keluar"
+            aria-label="Keluar"
+            class="p-1.5 text-slate-400 hover:text-rose-400 transition-colors cursor-pointer"
+          >
+            <span class="material-symbols-outlined text-[19px]">logout</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-6 flex-1 w-full">
+      <!-- Page Header Minimalis -->
+      <div
+        class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-1"
+      >
+        <div>
+          <h1
+            class="text-2xl font-headline font-bold text-white tracking-tight"
+          >
+            Dashboard Admin Platform
+          </h1>
+          <p class="text-sm text-slate-400 mt-1 max-w-2xl leading-relaxed">
+            Tinjau pengajuan pendaftaran dan revisi profil bengkel mitra, kelola
+            mitra aktif, serta pantau log aktivitas dan transaksi.
+          </p>
+        </div>
+        <div class="shrink-0">
+          <a
+            href="/admin-monitoring.html"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#4cd7f6]/10 hover:bg-[#4cd7f6] border border-[#4cd7f6]/40 text-[#4cd7f6] hover:text-slate-950 text-xs font-semibold transition-all shadow-sm active:scale-95"
+          >
+            <span class="material-symbols-outlined text-lg leading-none"
+              >monitoring</span
+            >
+            <span>Buka Log Monitoring &amp; Transaksi</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section 1: Ringkasan Platform -->
+      <section
+        class="bg-[#131b2e]/90 backdrop-blur border border-white/10 rounded-3xl p-6 shadow-xl shadow-black/20 space-y-4"
+      >
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[#4cd7f6] text-[22px]"
+              >analytics</span
+            >
+            <h2 class="text-lg font-headline font-bold text-white">
+              Ringkasan Platform
+            </h2>
+          </div>
+          <p
+            id="dashboardStatus"
+            role="status"
+            class="text-xs font-mono text-[#4cd7f6]"
+          ></p>
+        </div>
+
+        <ul id="dashboardSummary"></ul>
+      </section>
+
+      <!-- Pesan Feedback Aksi Admin -->
+      <p
+        id="message"
+        role="status"
+        class="text-sm font-mono text-[#4cd7f6] empty:hidden px-4 py-2.5 rounded-xl bg-[#4cd7f6]/10 border border-[#4cd7f6]/30"
+      ></p>
+
+      <!-- Section 2: Pengajuan Menunggu Keputusan -->
+      <section
+        class="bg-[#131b2e]/90 backdrop-blur border border-white/10 rounded-3xl p-6 shadow-xl shadow-black/20 space-y-4"
+      >
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-amber-400 text-[22px]"
+                >pending_actions</span
+              >
+              <h2 class="text-lg font-headline font-bold text-white">
+                Pengajuan Menunggu Keputusan
+              </h2>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">
+              Periksa identitas pemilik, lokasi, layanan, dan foto bengkel
+              sebelum menyetujui.
+            </p>
+          </div>
+          <span
+            id="pendingCountBadge"
+            class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-300 border border-amber-500/30"
+          >
+            0 Pengajuan
+          </span>
+        </div>
+
+        <div id="pending" class="grid gap-4 md:grid-cols-2"></div>
+      </section>
+
+      <!-- Section 3: Mitra Aktif -->
+      <section
+        class="bg-[#131b2e]/90 backdrop-blur border border-white/10 rounded-3xl p-6 shadow-xl shadow-black/20 space-y-4"
+      >
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <div class="flex items-center gap-2">
+              <span
+                class="material-symbols-outlined text-emerald-400 text-[22px]"
+                >verified</span
+              >
+              <h2 class="text-lg font-headline font-bold text-white">
+                Mitra Aktif
+              </h2>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">
+              Daftar bengkel mitra resmi yang saat ini tampil di pencarian
+              pelanggan.
+            </p>
+          </div>
+          <span
+            id="activePartnersCountBadge"
+            class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"
+          >
+            0 Mitra Aktif
+          </span>
+        </div>
+
+        <div id="activePartnersList" class="grid gap-4 md:grid-cols-2"></div>
+      </section>
+    </main>
+
+    <!-- FOOTER MINIMALIS -->
+    <footer
+      class="w-full border-t border-white/5 py-6 px-4 sm:px-6 bg-[#060e20]/60 mt-auto"
+    >
+      <div
+        class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400"
+      >
+        <div class="flex items-center gap-2">
+          <span class="font-headline font-semibold text-slate-300"
+            >admin<span class="text-[#4cd7f6]">in.</span></span
+          >
+          <span>—</span>
+          <span class="font-mono text-slate-400"
+            >Admin Governance &amp; Monitoring</span
+          >
+        </div>
+        <nav class="flex items-center gap-4">
+          <a href="/terms.html" class="hover:text-slate-200 transition-colors"
+            >Syarat Layanan</a
+          >
+          <span class="text-white/20">•</span>
+          <a href="/privacy.html" class="hover:text-slate-200 transition-colors"
+            >Kebijakan Privasi</a
+          >
+        </nav>
+      </div>
+    </footer>
+
+    <script src="/app.js"></script>
+    <script src="/dashboard.js"></script>
+    <script src="/assets/kunciGarasi/admin-partners.js"></script>
+    <script src="/notifications.js"></script>
+  </body>
+</html>

@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="referrer" content="same-origin" />
+    <title>Pendaftaran mitra bengkel — KunciGarasi</title>
+    <link rel="stylesheet" href="/frontend.css" />
+    <style>
+      body > .partner-navbar {
+        padding: 0;
+        background: rgb(11 19 38 / 80%);
+        border-bottom: 1px solid rgb(218 226 253 / 25%);
+        backdrop-filter: blur(16px);
+      }
+      .partner-navbar__row {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 32px;
+        min-height: 80px;
+        padding: 0 64px;
+      }
+      .partner-navbar a:not(.brand-mark) {
+        color: inherit;
+        text-decoration: none;
+      }
+      body > .partner-navbar nav {
+        gap: 24px;
+      }
+      .partner-navbar nav a:hover,
+      .partner-navbar__bell:hover {
+        color: var(--accent);
+      }
+      .partner-navbar__actions,
+      .partner-navbar__profile {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .partner-navbar__bell {
+        position: relative;
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+      }
+      .partner-navbar__bell:hover {
+        background: #222a3d;
+      }
+      .partner-navbar__bell span {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+      .partner-navbar__profile {
+        padding: 6px 10px;
+        border: 1px solid currentColor;
+        border-radius: 12px;
+        font-size: 12px;
+      }
+      .partner-navbar [data-profile-avatar] {
+        background: #2563eb;
+        color: white;
+        padding: 7px;
+        border-radius: 8px;
+      }
+      .partner-navbar :is([data-profile-email], [data-profile-role]) {
+        display: block;
+        max-width: 16rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .partner-navbar [role="status"] {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+      }
+      @media (max-width: 800px) {
+        .partner-navbar__row {
+          gap: 20px;
+          padding-inline: 24px;
+        }
+        .partner-navbar :is([data-profile-email], [data-profile-role]) {
+          max-width: 24vw;
+        }
+      }
+      @media (max-width: 640px) {
+        .partner-navbar__row {
+          grid-template-columns: minmax(0, 1fr) auto;
+          gap: 10px;
+          padding: 12px;
+        }
+        .partner-navbar nav {
+          grid-row: 2;
+          grid-column: 1 / -1;
+        }
+        .partner-navbar__actions {
+          grid-row: 1;
+          grid-column: 2;
+        }
+        .partner-navbar__profile {
+          padding: 5px 7px;
+        }
+        .partner-navbar :is([data-profile-email], [data-profile-role]) {
+          max-width: 19vw;
+        }
+      }
+    </style>
+    <link rel="stylesheet" href="/brand.css" />
+  </head>
+  <body>
+    <header class="partner-navbar">
+      <div class="partner-navbar__row">
+        <a class="brand-mark" href="/"
+          >Kunci<span class="brand-mark__suffix">Garasi</span></a
+        >
+        <nav aria-label="Navigasi registrasi mitra">
+          <a href="/home.html">Beranda</a>
+          <a href="/help.html">Pusat bantuan</a>
+        </nav>
+        <div class="partner-navbar__actions">
+          <div class="partner-navbar__profile" data-account-profile hidden>
+            <strong data-profile-avatar aria-hidden="true"></strong>
+            <span>
+              <span data-profile-email></span>
+              <small data-profile-role></small>
+            </span>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <h1>Pendaftaran mitra bengkel</h1>
+      <p>
+        Isi data yang benar. Bengkel akan tampil sebagai mitra setelah disetujui
+        admin. Foto JPEG/PNG/WebP maksimal 3 MB per foto.
+      </p>
+      <p id="accountStatus"></p>
+      <form id="partnerForm" enctype="multipart/form-data">
+        <fieldset id="accountFields">
+          <legend>Akun pemilik bengkel</legend>
+          <p>
+            Sudah punya akun?
+            <a href="/login-mitra.html">Login di sini</a>.
+          </p>
+          <label
+            >Email akun<input
+              id="accountEmailInput"
+              type="email"
+              maxlength="255"
+              required
+              autocomplete="email" /></label
+          ><label
+            >Password akun<input
+              id="accountPassword"
+              type="password"
+              minlength="8"
+              required
+              autocomplete="new-password" /></label
+          ><label
+            >Konfirmasi password<input
+              id="accountPasswordConfirm"
+              type="password"
+              minlength="8"
+              required
+              autocomplete="new-password"
+          /></label>
+        </fieldset>
+        <label>Nama bengkel<input id="name" maxlength="160" required /></label
+        ><label
+          >Alamat lengkap<textarea
+            id="address"
+            maxlength="500"
+            required
+          ></textarea></label
+        ><label
+          >Nomor telepon bengkel<input
+            id="phone"
+            type="tel"
+            pattern="[+0-9 ()-]{6,30}"
+            maxlength="30"
+            required
+        /></label>
+        <fieldset>
+          <legend>Lokasi bengkel</legend>
+          <p>
+            Gunakan lokasi saat berada di bengkel, atau isi titik bengkel secara
+            manual.
+          </p>
+          <button id="useLocation" type="button">
+            Gunakan lokasi bengkel saat ini</button
+          ><button id="manualLocation" type="button">
+            Isi titik secara manual
+          </button>
+          <div id="manualCoordinates">
+            <label
+              >Latitude<input
+                id="lat"
+                type="number"
+                step="any"
+                min="-90"
+                max="90"
+                required /></label
+            ><label
+              >Longitude<input
+                id="lng"
+                type="number"
+                step="any"
+                min="-180"
+                max="180"
+                required /></label
+            ><button id="checkRegion" type="button">
+              Periksa nama wilayah
+            </button>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Kategori kendaraan (pilih minimal satu)</legend>
+          <label
+            ><input
+              type="checkbox"
+              name="vehicleTypes"
+              value="motor"
+            />Motor</label
+          ><label
+            ><input
+              type="checkbox"
+              name="vehicleTypes"
+              value="mobil"
+            />Mobil</label
+          >
+        </fieldset>
+        <fieldset id="services">
+          <legend>Layanan (pilih 1–20)</legend>
+        </fieldset>
+        <fieldset>
+          <legend>
+            Layanan khusus (opsional, boleh pilih lebih dari satu)
+          </legend>
+          <label
+            ><input id="pickup" type="checkbox" />Melayani
+            penjemputan/derek</label
+          >
+          <div id="towGroup" hidden>
+            <label
+              >Foto kendaraan penjemputan/derek<input
+                id="towPhoto"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+            /></label>
+          </div>
+          <label
+            ><input id="onsite" type="checkbox" />Servis di lokasi
+            pelanggan</label
+          ><label
+            ><input id="emergency" type="checkbox" />Layanan darurat</label
+          >
+          <div id="emergencyBox" class="warning" hidden>
+            <p>
+              Dengan memilih layanan darurat, mitra menyatakan siap siaga 24
+              jam, menjaga kontak agar selalu dapat dihubungi, dan memberi tahu
+              pelanggan jika tidak dapat memenuhi permintaan. Konfirmasi respons
+              dan biaya sebelum berangkat.
+            </p>
+            <label
+              ><input id="emergencyAccepted" type="checkbox" />Saya menyetujui
+              kewajiban siap siaga 24 jam.</label
+            >
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Jam operasional (WIB)</legend>
+          <div class="day-options">
+            <label><input type="checkbox" name="days" value="0" />Minggu</label
+            ><label><input type="checkbox" name="days" value="1" />Senin</label
+            ><label><input type="checkbox" name="days" value="2" />Selasa</label
+            ><label><input type="checkbox" name="days" value="3" />Rabu</label
+            ><label><input type="checkbox" name="days" value="4" />Kamis</label
+            ><label><input type="checkbox" name="days" value="5" />Jumat</label
+            ><label><input type="checkbox" name="days" value="6" />Sabtu</label>
+          </div>
+          <label><input id="open24" type="checkbox" />Bengkel buka 24 jam</label
+          ><label>Jam buka<input id="openTime" type="time" required /></label
+          ><label>Jam tutup<input id="closeTime" type="time" required /></label>
+          <p>
+            Jam tutup lebih awal dari jam buka berarti tutup pada hari
+            berikutnya.
+          </p>
+        </fieldset>
+        <label
+          >Foto bengkel (wajib, 1–4 foto)<input
+            id="workshopPhotos"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            multiple
+            required /></label
+        ><button id="send" type="submit" disabled>
+          Lanjutkan ke persetujuan mitra
+        </button>
+      </form>
+      <p id="message" role="status"></p>
+      <h2>Pengajuan milik Anda</h2>
+      <ul id="mine"></ul>
+      <dialog id="partnerTerms" aria-labelledby="termsTitle">
+        <h2 id="termsTitle">Persetujuan kemitraan KunciGarasi</h2>
+        <p>
+          Pengajuan baru diteruskan setelah persetujuan diberikan. Bengkel wajib
+          memberikan informasi dan foto yang benar, hanya menerima
+          kendaraan/layanan sesuai kemampuan, melindungi data pelanggan, dan
+          mengonfirmasi biaya sebelum pengerjaan. Persetujuan admin diperlukan
+          sebelum tampil sebagai mitra.
+        </p>
+        <p>
+          <a href="/partner-terms.html" target="_blank" rel="noopener"
+            >Baca syarat mitra lengkap</a
+          >
+          ·
+          <a href="/partner-privacy.html" target="_blank" rel="noopener"
+            >Baca kebijakan privasi mitra</a
+          >
+        </p>
+        <label
+          ><input id="termsAccepted" type="checkbox" />Saya menyetujui syarat
+          kemitraan.</label
+        ><label
+          ><input id="privacyAccepted" type="checkbox" />Saya menyetujui
+          pemrosesan data untuk pendaftaran dan peninjauan mitra.</label
+        ><button id="cancelTerms" type="button">Kembali</button
+        ><button id="confirmTerms" type="button" disabled>
+          Setuju dan kirim pengajuan
+        </button>
+      </dialog>
+    </main>
+    <script src="/app.js"></script>
+    <script src="/region-name.js"></script>
+    <script src="/partner-registration.js"></script>
+  </body>
+</html>

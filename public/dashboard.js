@@ -17,7 +17,12 @@
     rejected: "Ditolak",
   };
   const el = (id) => document.getElementById(id);
+  let refreshing = false;
   async function refresh() {
+    if (refreshing) return;
+    refreshing = true;
+    const refreshBtn = el("refreshDashboard");
+    if (refreshBtn) refreshBtn.disabled = true;
     el("dashboardStatus").textContent = "Memuat dashboard...";
     try {
       const response = await fetch("/api/dashboard/" + role, {
@@ -49,9 +54,31 @@
         pendingWorkshops: "Menunggu persetujuan",
         rejectedWorkshops: "Pengajuan ditolak",
       };
+      const adminSummaryLinks = {
+        totalAccounts: "/admin-accounts.html?tab=akun",
+        totalWorkshops: "/admin-accounts.html?tab=bengkel",
+        approvedWorkshops: "/admin-accounts.html?tab=bengkel&status=approved",
+        pendingWorkshops: "/admin-accounts.html?tab=bengkel&status=pending",
+        rejectedWorkshops: "/admin-accounts.html?tab=bengkel&status=rejected",
+      };
       for (const [key, value] of Object.entries(data.summary)) {
         const item = document.createElement("li");
-        item.textContent = (summaryLabels[key] || key) + ": " + value;
+        const label = summaryLabels[key] || key;
+        if (role === "admin" && adminSummaryLinks[key]) {
+          const link = document.createElement("a");
+          link.href = adminSummaryLinks[key];
+          link.className = "summary-card-link";
+          const titleSpan = document.createElement("span");
+          titleSpan.className = "summary-card-title";
+          titleSpan.textContent = label + ": " + value;
+          const actionSpan = document.createElement("span");
+          actionSpan.className = "summary-card-action";
+          actionSpan.textContent = "Lihat detail →";
+          link.append(titleSpan, actionSpan);
+          item.append(link);
+        } else {
+          item.textContent = label + ": " + value;
+        }
         el("dashboardSummary").append(item);
       }
       if (el("dashboardItems")) {
@@ -80,15 +107,22 @@
       el("dashboardStatus").textContent = "";
     } catch (error) {
       el("dashboardStatus").textContent = error.message;
+    } finally {
+      refreshing = false;
+      if (refreshBtn) refreshBtn.disabled = false;
     }
   }
   el("refreshDashboard")?.addEventListener("click", refresh);
-  el("dashboardLogout")?.addEventListener("click", async () => {
+  el("dashboardLogout")?.addEventListener("click", async (event) => {
+    const logoutBtn = event.currentTarget;
+    if (logoutBtn.disabled) return;
+    logoutBtn.disabled = true;
     try {
       await Bengkel.request("/api/logout", Bengkel.json("POST", {}));
       window.location.replace("/login.html");
     } catch (error) {
       el("dashboardStatus").textContent = error.message;
+      logoutBtn.disabled = false;
     }
   });
   window.addEventListener("partners-updated", refresh);

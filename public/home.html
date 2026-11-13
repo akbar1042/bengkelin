@@ -1,348 +1,631 @@
-<!DOCTYPE html>
+<!doctype html>
 <html class="dark scroll-smooth" lang="id">
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Bengkelin - Platform Perawatan Kendaraan Cerdas</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>KunciGarasi - Platform Perawatan Kendaraan Cerdas</title>
 
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "background": "#0b1326",
-            "surface": "#0b1326",
-            "surface-dim": "#0b1326",
-            "surface-bright": "#31394d",
-            "surface-container-lowest": "#060e20",
-            "surface-container-low": "#131b2e",
-            "surface-container": "#171f33",
-            "surface-container-high": "#222a3d",
-            "surface-container-highest": "#2d3449",
-            "on-surface": "#dae2fd",
-            "on-surface-variant": "#bfc7d2",
-            "primary": "#93ccff",
-            "primary-container": "#3198dc",
-            "on-primary": "#003351",
-            "on-primary-container": "#002c47",
-            "secondary": "#4cd7f6",
-            "secondary-container": "#03b5d3",
-            "on-secondary": "#003640",
-            "on-secondary-fixed": "#001f26",
-            "tertiary": "#ffb95f",
-            "tertiary-container": "#ca8100",
-            "on-tertiary": "#472a00",
-            "outline": "#89929b",
-            "outline-variant": "#3f4850"
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              background: "#0b1326",
+              surface: "#0b1326",
+              "surface-dim": "#0b1326",
+              "surface-bright": "#31394d",
+              "surface-container-lowest": "#060e20",
+              "surface-container-low": "#131b2e",
+              "surface-container": "#171f33",
+              "surface-container-high": "#222a3d",
+              "surface-container-highest": "#2d3449",
+              "on-surface": "#dae2fd",
+              "on-surface-variant": "#bfc7d2",
+              primary: "#93ccff",
+              "primary-container": "#3198dc",
+              "on-primary": "#003351",
+              "on-primary-container": "#002c47",
+              secondary: "#4cd7f6",
+              "secondary-container": "#03b5d3",
+              "on-secondary": "#003640",
+              "on-secondary-fixed": "#001f26",
+              tertiary: "#ffb95f",
+              "tertiary-container": "#ca8100",
+              "on-tertiary": "#472a00",
+              outline: "#89929b",
+              "outline-variant": "#3f4850",
+            },
+            fontFamily: {
+              display: ["Plus Jakarta Sans", "sans-serif"],
+              headline: ["Plus Jakarta Sans", "sans-serif"],
+              body: ["Inter", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
           },
-          fontFamily: {
-            display: ["Plus Jakarta Sans", "sans-serif"],
-            headline: ["Plus Jakarta Sans", "sans-serif"],
-            body: ["Inter", "sans-serif"],
-            mono: ["JetBrains Mono", "monospace"]
-          }
+        },
+      };
+    </script>
+
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
         }
       }
-    };
-  </script>
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <link rel="stylesheet" href="/brand.css" />
+  </head>
 
-  <style>
-    @layer base {
-      html, body { margin: 0; padding: 0; }
-      body { overscroll-behavior: none; }
-    }
-    ::-webkit-scrollbar { display: none; }
-  </style>
-  <link rel="stylesheet" href="/brand.css" />
-</head>
+  <body class="bg-surface font-body text-on-surface antialiased">
+    <!-- NAVBAR HEADER (Sudah Diperbaiki Biar Nggak Hilang) -->
+    <header
+      class="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-xl border-b border-surface-container-highest/40"
+    >
+      <div
+        class="h-20 w-full max-w-[1600px] mx-auto px-6 sm:px-10 flex items-center justify-between gap-6"
+      >
+        <div class="flex items-center gap-8 lg:gap-10">
+          <!-- Logo Brand -->
+          <a class="brand-mark" href="/"
+            >Kunci<span class="brand-mark__suffix">Garasi</span></a
+          >
 
-<body class="bg-surface font-body text-on-surface antialiased">
-
- <!-- NAVBAR HEADER (Sudah Diperbaiki Biar Nggak Hilang) -->
-<header class="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-xl border-b border-surface-container-highest/40">
-  <div class="h-20 w-full max-w-[1600px] mx-auto px-6 sm:px-10 flex items-center justify-between gap-6">
-    <div class="flex items-center gap-8 lg:gap-10">
-      <!-- Logo Brand -->
-      <a class="brand-mark" href="/">bengkel<span class="brand-mark__suffix">In</span></a>
-
-      <!-- Menu Navigasi Tengah (Diubah dari hidden xl:flex jadi hidden lg:flex) -->
-      <nav class="hidden lg:flex items-center gap-6 xl:gap-8">
-        <a class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" href="#layanan-unggulan">Layanan</a>
-        <a class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" href="#keunggulan">Keunggulan</a>
-        
-        <a class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-requires-login href="/ai.html">Bengkelin AI</a>
-      <a href="/support.html">Customer Service</a></nav>
-    </div>
-
-    <!-- Tombol Auth Kanan -->
-    <div class="flex items-center gap-3 sm:gap-4">
-      <a class="h-11 px-4 sm:px-5 flex items-center justify-center rounded-lg font-label-lg text-label-lg text-on-surface hover:bg-surface-container-high transition-all" href="/login.html">Masuk</a>
-      <a class="h-11 px-4 sm:px-5 flex items-center justify-center rounded-lg bg-primary-container text-on-primary-container font-label-lg text-label-lg font-semibold hover:bg-primary hover:text-on-primary shadow-[0_0_16px_-4px_rgba(76,215,246,0.3)] transition-all" href="/registrasi.html">Daftar</a>
-    </div>
-  </div>
-</header>
-
-      <!-- AUTH BUTTONS -->
-      <div class="flex items-center gap-4">
-        <a class="h-10 px-5 flex items-center justify-center rounded-xl text-sm font-semibold text-on-surface hover:bg-surface-container-high transition-all" href="/login.html">Masuk</a>
-        <a class="h-10 px-5 flex items-center justify-center rounded-xl bg-primary-container text-on-primary-container text-sm font-bold hover:bg-primary hover:text-on-primary shadow-lg shadow-sky-500/20 transition-all" href="/registrasi.html">Daftar</a>
-      </div>
-    </div>
-  </header>
-
-  <!-- MAIN CONTENT -->
-  <main class="w-full pt-20 bg-surface">
-    <div class="flex flex-col w-full text-on-surface">
-
-      <!-- HERO SECTION -->
-      <section class="relative w-full overflow-hidden py-14 px-6 sm:px-10">
-        <div class="absolute -top-32 left-1/4 w-[520px] h-[520px] rounded-full bg-secondary/10 blur-[130px] pointer-events-none"></div>
-        <div class="absolute top-1/3 right-5 w-[420px] h-[420px] rounded-full bg-primary/10 blur-[120px] pointer-events-none"></div>
-
-        <div class="max-w-[1500px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-          <div class="lg:col-span-7 flex flex-col items-start gap-6">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-high border border-white/10 shadow-sm">
-              <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
-              <span class="font-mono text-xs text-secondary uppercase tracking-widest font-semibold">Platform Manajemen Bengkel &amp; Servis 4.0</span>
-            </div>
-
-            <h1 class="font-headline text-4xl sm:text-5xl lg:text-6xl text-white font-extrabold leading-tight tracking-tight">
-              Perawatan Kendaraan <span class="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-cyan-300">Cerdas</span>, Transparan, &amp; Terjadwal.
-            </h1>
-
-            <p class="text-base sm:text-lg text-on-surface-variant max-w-2xl leading-relaxed">
-              Cari bengkel motor atau mobil, konsultasikan keluhan kendaraan, dan ajukan jadwal servis.
-            </p>
-
-            <div class="flex flex-wrap items-center gap-4 pt-2 w-full sm:w-auto">
-              <a class="h-12 px-7 rounded-xl bg-primary-container text-on-primary-container font-headline font-bold text-sm flex items-center justify-center gap-2 hover:bg-primary hover:text-on-primary shadow-xl shadow-sky-500/20 transition-all" data-requires-login href="/search.html?vehicleType=motor">
-                <span>Cari bengkel motor</span>
-                <span aria-hidden="true" class="material-symbols-outlined text-[20px]">arrow_forward</span>
-              </a>
-              <a class="h-12 px-7 rounded-xl bg-primary-container text-on-primary-container font-headline font-bold text-sm flex items-center justify-center gap-2 hover:bg-primary hover:text-on-primary shadow-xl shadow-sky-500/20 transition-all" data-requires-login href="/search.html?vehicleType=mobil">
-                <span>Cari bengkel mobil</span>
-                <span aria-hidden="true" class="material-symbols-outlined text-[20px]">arrow_forward</span>
-              </a>
-              <a data-requires-login href="/search.html?category=emergency"  class="h-12 px-7 rounded-xl bg-tertiary text-on-tertiary font-headline font-bold text-sm flex items-center justify-center gap-2 hover:opacity-95 shadow-xl transition-all border border-tertiary/40"  type="button">
-                <span class="material-symbols-outlined text-[20px]">emergency</span>
-                <span>Cari bengkel dengan derek (SOS)</span>
-              </a>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 w-full">
-              <div class="flex items-center gap-3 p-3.5 rounded-xl bg-surface-container-low border border-white/5">
-                <span class="material-symbols-outlined text-secondary text-[24px]">verified</span>
-                <div class="flex flex-col">
-                  <span class="text-xs font-bold text-white">Garansi 30 Hari</span>
-                  <span class="font-mono text-[11px] text-on-surface-variant">Suku cadang &amp; jasa</span>
-                </div>
-              </div>
-              <div class="flex items-center gap-3 p-3.5 rounded-xl bg-surface-container-low border border-white/5">
-                <span class="material-symbols-outlined text-secondary text-[24px]">build_circle</span>
-                <div class="flex flex-col">
-                  <span class="text-xs font-bold text-white">500+ Mitra Bengkel</span>
-                  <span class="font-mono text-[11px] text-on-surface-variant">Audit standar OBD</span>
-                </div>
-              </div>
-              <div class="flex items-center gap-3 p-3.5 rounded-xl bg-surface-container-low border border-white/5">
-                <span class="material-symbols-outlined text-secondary text-[24px]">receipt_long</span>
-                <div class="flex flex-col">
-                  <span class="text-xs font-bold text-white">Biaya Transparan</span>
-                  <span class="font-mono text-[11px] text-on-surface-variant">Tanpa mark-up terselubung</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- SOS RIGHT CARD -->
-          <div class="lg:col-span-5 relative mt-6 lg:mt-0">
-            <img  src="images/mekanik_diwek.png" alt="diwek_beban_tim">
-          </div>
+          <!-- Menu Navigasi Tengah (Diubah dari hidden xl:flex jadi hidden lg:flex) -->
+          <nav class="hidden lg:flex items-center gap-6 xl:gap-8">
+            <a
+              class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors"
+              href="#layanan-unggulan"
+              >Layanan</a
+            >
+            <a
+              class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors"
+              href="#keunggulan"
+              >Keunggulan</a
+            >
+            <a
+              class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors"
+              data-requires-login
+              href="/ai.html"
+              >Konsultasi AI</a
+            >
+            <a
+              class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors"
+              data-requires-login
+              href="/support.html"
+              >Customer Service</a
+            >
+            <a
+              class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors"
+              href="/help.html"
+              >Pusat bantuan</a
+            >
+          </nav>
         </div>
-      </section>
 
-      <!-- AI ASSISTANT SECTION -->
-      <section class="w-full py-8 px-6 sm:px-10 bg-surface" id="bengkelin-ai">
-        <div class="max-w-[1500px] mx-auto">
-          <div class="relative rounded-2xl bg-surface-container-low p-8 border border-secondary/20 shadow-2xl overflow-hidden">
-            <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-              <div class="flex flex-col gap-3 max-w-3xl">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high border border-secondary/30 w-fit">
-                  <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
-                  <span class="font-mono text-xs text-secondary font-bold uppercase tracking-wider">✨ BENGKELIN AI ASSISTANT 24/7</span>
-                </div>
-                <h2 class="font-headline text-2xl sm:text-3xl text-white font-extrabold tracking-tight">
-                  Konsultasi Gejala Kendaraan Bersama <span class="text-secondary">Bengkelin AI</span>
-                </h2>
-                <p class="text-sm text-on-surface-variant leading-relaxed">
-                  Mendengar bunyi aneh pada mesin atau indikator check engine menyala? Ceritakan keluhan Anda ke asisten AI Bengkelin untuk pemeriksaan awal sebelum ke bengkel.
-                </p>
+        <!-- Tombol Auth Kanan -->
+        <div class="flex items-center gap-3 sm:gap-4">
+          <a
+            class="h-11 px-4 sm:px-5 flex items-center justify-center rounded-lg font-label-lg text-label-lg text-on-surface hover:bg-surface-container-high transition-all"
+            href="/login.html"
+            >Masuk</a
+          >
+          <a
+            class="h-11 px-4 sm:px-5 flex items-center justify-center rounded-lg bg-primary-container text-on-primary-container font-label-lg text-label-lg font-semibold hover:bg-primary hover:text-on-primary shadow-[0_0_16px_-4px_rgba(76,215,246,0.3)] transition-all"
+            href="/registrasi.html"
+            >Daftar</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="w-full pt-20 bg-surface">
+      <div class="flex flex-col w-full text-on-surface">
+        <!-- HERO SECTION -->
+        <section class="relative w-full overflow-hidden py-14 px-6 sm:px-10">
+          <div
+            class="absolute -top-32 left-1/4 w-[520px] h-[520px] rounded-full bg-secondary/10 blur-[130px] pointer-events-none"
+          ></div>
+          <div
+            class="absolute top-1/3 right-5 w-[420px] h-[420px] rounded-full bg-primary/10 blur-[120px] pointer-events-none"
+          ></div>
+
+          <div
+            class="max-w-[1500px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10"
+          >
+            <div class="lg:col-span-7 flex flex-col items-start gap-6">
+              <div
+                class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-high border border-white/10 shadow-sm"
+              >
+                <span
+                  class="w-2 h-2 rounded-full bg-secondary animate-pulse"
+                ></span>
+                <span
+                  class="font-mono text-xs text-secondary uppercase tracking-widest font-semibold"
+                  >Platform Manajemen Bengkel &amp; Servis 4.0</span
+                >
               </div>
-              <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto flex-shrink-0">
-                <a data-requires-login href="/ai.html"  class="h-11 px-6 rounded-xl bg-secondary-container text-on-secondary-fixed font-headline font-bold text-xs flex items-center justify-center gap-2 hover:bg-secondary hover:text-on-secondary shadow-lg shadow-cyan-500/20"  type="button">
-                  <span class="material-symbols-outlined text-[18px]">smart_toy</span>
-                  <span>Tanya Bengkelin AI 🤖</span>
+
+              <h1
+                class="font-headline text-4xl sm:text-5xl lg:text-6xl text-white font-extrabold leading-tight tracking-tight"
+              >
+                Perawatan Kendaraan
+                <span
+                  class="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-cyan-300"
+                  >Cerdas</span
+                >, Transparan, &amp; Terjadwal.
+              </h1>
+
+              <p
+                class="text-base sm:text-lg text-on-surface-variant max-w-2xl leading-relaxed"
+              >
+                Cari bengkel motor atau mobil, konsultasikan keluhan kendaraan,
+                dan ajukan jadwal servis.
+              </p>
+
+              <div
+                class="flex flex-wrap items-center gap-4 pt-2 w-full sm:w-auto"
+              >
+                <a
+                  class="h-12 px-7 rounded-xl bg-primary-container text-on-primary-container font-headline font-bold text-sm flex items-center justify-center gap-2 hover:bg-primary hover:text-on-primary shadow-xl shadow-sky-500/20 transition-all"
+                  data-requires-login
+                  href="/search.html?vehicleType=motor"
+                >
+                  <span>Cari bengkel motor</span>
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-[20px]"
+                    >arrow_forward</span
+                  >
+                </a>
+                <a
+                  class="h-12 px-7 rounded-xl bg-primary-container text-on-primary-container font-headline font-bold text-sm flex items-center justify-center gap-2 hover:bg-primary hover:text-on-primary shadow-xl shadow-sky-500/20 transition-all"
+                  data-requires-login
+                  href="/search.html?vehicleType=mobil"
+                >
+                  <span>Cari bengkel mobil</span>
+                  <span
+                    aria-hidden="true"
+                    class="material-symbols-outlined text-[20px]"
+                    >arrow_forward</span
+                  >
+                </a>
+                <a
+                  data-requires-login
+                  href="/search.html?category=emergency"
+                  class="h-12 px-7 rounded-xl bg-tertiary text-on-tertiary font-headline font-bold text-sm flex items-center justify-center gap-2 hover:opacity-95 shadow-xl transition-all border border-tertiary/40"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined text-[20px]"
+                    >emergency</span
+                  >
+                  <span>Cari bengkel dengan derek (SOS)</span>
                 </a>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <!-- FEATURED SERVICES -->
-      <section class="w-full px-6 sm:px-10 bg-surface-container-lowest py-14" id="layanan-unggulan">
-        <div class="max-w-[1500px] mx-auto flex flex-col gap-8">
-          <div class="flex flex-col gap-2 max-w-2xl">
-            <span class="text-secondary font-mono text-xs uppercase tracking-widest font-semibold">01 / PUSAT SERVIS DIGITAL</span>
-            <h2 class="font-headline text-3xl text-white font-extrabold tracking-tight">Layanan Unggulan Standar OEM</h2>
-            <p class="text-sm text-on-surface-variant">Setiap pengerjaan diverifikasi lewat data komputer onboard dan checklist digital standar pabrikan.</p>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="p-6 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col justify-between shadow-lg">
-              <div class="flex flex-col gap-4">
-                <div class="w-10 h-10 rounded-xl bg-surface-container-highest text-secondary flex items-center justify-center">
-                  <span class="material-symbols-outlined text-[24px]">oil_barrel</span>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 w-full">
+                <div
+                  class="flex items-center gap-3 p-3.5 rounded-xl bg-surface-container-low border border-white/5"
+                >
+                  <span
+                    class="material-symbols-outlined text-secondary text-[24px]"
+                    >verified</span
+                  >
+                  <div class="flex flex-col">
+                    <span class="text-xs font-bold text-white"
+                      >Garansi 30 Hari</span
+                    >
+                    <span class="font-mono text-[11px] text-on-surface-variant"
+                      >Suku cadang &amp; jasa</span
+                    >
+                  </div>
                 </div>
-                <h3 class="font-headline text-lg text-white font-bold">Servis Rutin &amp; Tune Up</h3>
-                <p class="text-xs text-on-surface-variant leading-relaxed">Penggantian pelumas sintetis, pembersihan throttle body, dan spark plugs.</p>
+                <div
+                  class="flex items-center gap-3 p-3.5 rounded-xl bg-surface-container-low border border-white/5"
+                >
+                  <span
+                    class="material-symbols-outlined text-secondary text-[24px]"
+                    >build_circle</span
+                  >
+                  <div class="flex flex-col">
+                    <span class="text-xs font-bold text-white"
+                      >500+ Mitra Bengkel</span
+                    >
+                    <span class="font-mono text-[11px] text-on-surface-variant"
+                      >Audit standar OBD</span
+                    >
+                  </div>
+                </div>
+                <div
+                  class="flex items-center gap-3 p-3.5 rounded-xl bg-surface-container-low border border-white/5"
+                >
+                  <span
+                    class="material-symbols-outlined text-secondary text-[24px]"
+                    >receipt_long</span
+                  >
+                  <div class="flex flex-col">
+                    <span class="text-xs font-bold text-white"
+                      >Biaya Transparan</span
+                    >
+                    <span class="font-mono text-[11px] text-on-surface-variant"
+                      >Tanpa mark-up terselubung</span
+                    >
+                  </div>
+                </div>
               </div>
-              <div class="pt-6 text-secondary font-semibold text-xs">Mulai Rp 220.000</div>
             </div>
 
-            <div class="p-6 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col justify-between shadow-lg">
-              <div class="flex flex-col gap-4">
-                <div class="w-10 h-10 rounded-xl bg-surface-container-highest text-primary flex items-center justify-center">
-                  <span class="material-symbols-outlined text-[24px]">troubleshoot</span>
-                </div>
-                <h3 class="font-headline text-lg text-white font-bold">Diagnosa OBD-II</h3>
-                <p class="text-xs text-on-surface-variant leading-relaxed">Pemindaian error ECU, sensor O2, sistem transmisi otomatis, dan ABS.</p>
-              </div>
-              <div class="pt-6 text-primary font-semibold text-xs">Mulai Rp 150.000</div>
-            </div>
-
-            <div class="p-6 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col justify-between shadow-lg">
-              <div class="flex flex-col gap-4">
-                <div class="w-10 h-10 rounded-xl bg-surface-container-highest text-tertiary flex items-center justify-center">
-                  <span class="material-symbols-outlined text-[24px]">car_repair</span>
-                </div>
-                <h3 class="font-headline text-lg text-white font-bold">Home Service &amp; Derek</h3>
-                <p class="text-xs text-on-surface-variant leading-relaxed">Montir bersertifikat datang ke lokasi atau armada derek hidrolik darurat.</p>
-              </div>
-              <div class="pt-6 text-tertiary font-semibold text-xs">Respons Cepat 30 Mnt</div>
-            </div>
-
-            <div class="p-6 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col justify-between shadow-lg">
-              <div class="flex flex-col gap-4">
-                <div class="w-10 h-10 rounded-xl bg-surface-container-highest text-secondary flex items-center justify-center">
-                  <span class="material-symbols-outlined text-[24px]">verified</span>
-                </div>
-                <h3 class="font-headline text-lg text-white font-bold">Suku Cadang Bergaransi</h3>
-                <p class="text-xs text-on-surface-variant leading-relaxed">Integrasi rantai pasok genuine parts (Honda, Toyota, Bosch) resmi.</p>
-              </div>
-              <div class="pt-6 text-secondary font-semibold text-xs">Pilihan suku cadang sesuai bengkel</div>
+            <!-- SOS RIGHT CARD -->
+            <div class="lg:col-span-5 relative mt-6 lg:mt-0">
+              <img src="images/mekanik_diwek.png" alt="diwek_beban_tim" />
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- LIVE COST ESTIMATOR -->
-      
-
-      <!-- METRICS SECTION -->
-      <section class="w-full px-6 sm:px-10 bg-surface-container-lowest py-14" id="keunggulan">
-        <div class="max-w-[1500px] mx-auto">
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="p-6 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col gap-1">
-              <span class="font-headline text-3xl text-secondary font-extrabold">—</span>
-              <span class="font-headline text-sm text-white font-semibold">Kepuasan Pelanggan</span>
-              <p class="text-xs text-on-surface-variant">Data ulasan belum tersedia.</p>
-            </div>
-            <div class="p-6 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col gap-1">
-              <span class="font-headline text-3xl text-primary font-extrabold">—</span>
-              <span class="font-headline text-sm text-white font-semibold">Servis Tuntas</span>
-              <p class="text-xs text-on-surface-variant">Dari perawatan rutin hingga overhaul.</p>
-            </div>
-            <div class="p-6 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col gap-1">
-              <span class="font-headline text-3xl text-tertiary font-extrabold">—</span>
-              <span class="font-headline text-sm text-white font-semibold">Kota Indonesia</span>
-              <p class="text-xs text-on-surface-variant">Ketersediaan mengikuti bengkel terdaftar.</p>
-            </div>
-            <div class="p-6 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col gap-1">
-              <span class="font-headline text-3xl text-secondary font-extrabold">—</span>
-              <span class="font-headline text-sm text-white font-semibold">Biaya Tak Terduga</span>
-              <p class="text-xs text-on-surface-variant">Konfirmasi biaya langsung kepada bengkel.</p>
+        <!-- AI ASSISTANT SECTION -->
+        <section class="w-full py-8 px-6 sm:px-10 bg-surface" id="bengkelin-ai">
+          <div class="max-w-[1500px] mx-auto">
+            <div
+              class="relative rounded-2xl bg-surface-container-low p-8 border border-secondary/20 shadow-2xl overflow-hidden"
+            >
+              <div
+                class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6"
+              >
+                <div class="flex flex-col gap-3 max-w-3xl">
+                  <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high border border-secondary/30 w-fit"
+                  >
+                    <span
+                      class="w-2 h-2 rounded-full bg-secondary animate-pulse"
+                    ></span>
+                    <span
+                      class="font-mono text-xs text-secondary font-bold uppercase tracking-wider"
+                      >✨ BENGKELIN AI ASSISTANT 24/7</span
+                    >
+                  </div>
+                  <h2
+                    class="font-headline text-2xl sm:text-3xl text-white font-extrabold tracking-tight"
+                  >
+                    Konsultasi Gejala Kendaraan Bersama
+                    <span class="text-secondary">KunciGarasi AI</span>
+                  </h2>
+                  <p class="text-sm text-on-surface-variant leading-relaxed">
+                    Mendengar bunyi aneh pada mesin atau indikator check engine
+                    menyala? Ceritakan keluhan Anda ke asisten AI KunciGarasi
+                    untuk pemeriksaan awal sebelum ke bengkel.
+                  </p>
+                </div>
+                <div
+                  class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto flex-shrink-0"
+                >
+                  <a
+                    data-requires-login
+                    href="/ai.html"
+                    class="h-11 px-6 rounded-xl bg-secondary-container text-on-secondary-fixed font-headline font-bold text-xs flex items-center justify-center gap-2 hover:bg-secondary hover:text-on-secondary shadow-lg shadow-cyan-500/20"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >smart_toy</span
+                    >
+                    <span>Tanya KunciGarasi AI 🤖</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- CTA BANNER -->
-      <section class="w-full px-6 sm:px-10 bg-surface py-14">
-        <div class="max-w-[1500px] mx-auto rounded-2xl bg-surface-container-low p-8 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-2xl border border-white/10">
-          <div class="flex flex-col gap-2 max-w-2xl">
-            <span class="font-mono text-xs text-secondary uppercase tracking-widest font-semibold">PERFORMA KENDARAAN MAKSIMAL</span>
-            <h2 class="font-headline text-2xl sm:text-3xl text-white font-extrabold tracking-tight">Siap Merawat Kendaraan Anda dengan Cara Modern?</h2>
-            <p class="text-sm text-on-surface-variant">Daftarkan kendaraan Anda hari ini untuk rekam jejak digital gratis dan pengingat servis otomatis.</p>
+        <!-- FEATURED SERVICES -->
+        <section
+          class="w-full px-6 sm:px-10 bg-surface-container-lowest py-14"
+          id="layanan-unggulan"
+        >
+          <div class="max-w-[1500px] mx-auto flex flex-col gap-8">
+            <div class="flex flex-col gap-2 max-w-2xl">
+              <span
+                class="text-secondary font-mono text-xs uppercase tracking-widest font-semibold"
+                >01 / PUSAT SERVIS DIGITAL</span
+              >
+              <h2
+                class="font-headline text-3xl text-white font-extrabold tracking-tight"
+              >
+                Layanan Unggulan Standar OEM
+              </h2>
+              <p class="text-sm text-on-surface-variant">
+                Setiap pengerjaan diverifikasi lewat data komputer onboard dan
+                checklist digital standar pabrikan.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div
+                class="p-6 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col justify-between shadow-lg"
+              >
+                <div class="flex flex-col gap-4">
+                  <div
+                    class="w-10 h-10 rounded-xl bg-surface-container-highest text-secondary flex items-center justify-center"
+                  >
+                    <span class="material-symbols-outlined text-[24px]"
+                      >oil_barrel</span
+                    >
+                  </div>
+                  <h3 class="font-headline text-lg text-white font-bold">
+                    Servis Rutin &amp; Tune Up
+                  </h3>
+                  <p class="text-xs text-on-surface-variant leading-relaxed">
+                    Penggantian pelumas sintetis, pembersihan throttle body, dan
+                    spark plugs.
+                  </p>
+                </div>
+                <div class="pt-6 text-secondary font-semibold text-xs">
+                  Mulai Rp 220.000
+                </div>
+              </div>
+
+              <div
+                class="p-6 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col justify-between shadow-lg"
+              >
+                <div class="flex flex-col gap-4">
+                  <div
+                    class="w-10 h-10 rounded-xl bg-surface-container-highest text-primary flex items-center justify-center"
+                  >
+                    <span class="material-symbols-outlined text-[24px]"
+                      >troubleshoot</span
+                    >
+                  </div>
+                  <h3 class="font-headline text-lg text-white font-bold">
+                    Diagnosa OBD-II
+                  </h3>
+                  <p class="text-xs text-on-surface-variant leading-relaxed">
+                    Pemindaian error ECU, sensor O2, sistem transmisi otomatis,
+                    dan ABS.
+                  </p>
+                </div>
+                <div class="pt-6 text-primary font-semibold text-xs">
+                  Mulai Rp 150.000
+                </div>
+              </div>
+
+              <div
+                class="p-6 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col justify-between shadow-lg"
+              >
+                <div class="flex flex-col gap-4">
+                  <div
+                    class="w-10 h-10 rounded-xl bg-surface-container-highest text-tertiary flex items-center justify-center"
+                  >
+                    <span class="material-symbols-outlined text-[24px]"
+                      >car_repair</span
+                    >
+                  </div>
+                  <h3 class="font-headline text-lg text-white font-bold">
+                    Home Service &amp; Derek
+                  </h3>
+                  <p class="text-xs text-on-surface-variant leading-relaxed">
+                    Montir bersertifikat datang ke lokasi atau armada derek
+                    hidrolik darurat.
+                  </p>
+                </div>
+                <div class="pt-6 text-tertiary font-semibold text-xs">
+                  Respons Cepat 30 Mnt
+                </div>
+              </div>
+
+              <div
+                class="p-6 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col justify-between shadow-lg"
+              >
+                <div class="flex flex-col gap-4">
+                  <div
+                    class="w-10 h-10 rounded-xl bg-surface-container-highest text-secondary flex items-center justify-center"
+                  >
+                    <span class="material-symbols-outlined text-[24px]"
+                      >verified</span
+                    >
+                  </div>
+                  <h3 class="font-headline text-lg text-white font-bold">
+                    Suku Cadang Bergaransi
+                  </h3>
+                  <p class="text-xs text-on-surface-variant leading-relaxed">
+                    Integrasi rantai pasok genuine parts (Honda, Toyota, Bosch)
+                    resmi.
+                  </p>
+                </div>
+                <div class="pt-6 text-secondary font-semibold text-xs">
+                  Pilihan suku cadang sesuai bengkel
+                </div>
+              </div>
+            </div>
           </div>
-          <a class="h-12 px-7 rounded-xl bg-primary-container text-on-primary-container hover:bg-primary font-headline font-bold text-sm flex items-center justify-center gap-2 shadow-xl shadow-sky-500/20" href="/registrasi.html">
-            <span>Daftar Gratis Sekarang</span>
-            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-          </a>
-        </div>
-      </section>
+        </section>
 
-    </div>
-  </main>
+        <!-- LIVE COST ESTIMATOR -->
 
-  <!-- FLOATING ACTION BUTTONS (BOTTOM-RIGHT) -->
-  <aside aria-label="Aksi Cepat" class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+        <!-- METRICS SECTION -->
+        <section
+          class="w-full px-6 sm:px-10 bg-surface-container-lowest py-14"
+          id="keunggulan"
+        >
+          <div class="max-w-[1500px] mx-auto">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div
+                class="p-6 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col gap-1"
+              >
+                <span
+                  class="font-headline text-3xl text-secondary font-extrabold"
+                  >—</span
+                >
+                <span class="font-headline text-sm text-white font-semibold"
+                  >Kepuasan Pelanggan</span
+                >
+                <p class="text-xs text-on-surface-variant">
+                  Data ulasan belum tersedia.
+                </p>
+              </div>
+              <div
+                class="p-6 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col gap-1"
+              >
+                <span class="font-headline text-3xl text-primary font-extrabold"
+                  >—</span
+                >
+                <span class="font-headline text-sm text-white font-semibold"
+                  >Servis Tuntas</span
+                >
+                <p class="text-xs text-on-surface-variant">
+                  Dari perawatan rutin hingga overhaul.
+                </p>
+              </div>
+              <div
+                class="p-6 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col gap-1"
+              >
+                <span
+                  class="font-headline text-3xl text-tertiary font-extrabold"
+                  >—</span
+                >
+                <span class="font-headline text-sm text-white font-semibold"
+                  >Kota Indonesia</span
+                >
+                <p class="text-xs text-on-surface-variant">
+                  Ketersediaan mengikuti bengkel terdaftar.
+                </p>
+              </div>
+              <div
+                class="p-6 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col gap-1"
+              >
+                <span
+                  class="font-headline text-3xl text-secondary font-extrabold"
+                  >—</span
+                >
+                <span class="font-headline text-sm text-white font-semibold"
+                  >Biaya Tak Terduga</span
+                >
+                <p class="text-xs text-on-surface-variant">
+                  Konfirmasi biaya langsung kepada bengkel.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
-    <!-- AI CHAT DRAWER PANEL -->
-    
+        <!-- CTA BANNER -->
+        <section class="w-full px-6 sm:px-10 bg-surface py-14">
+          <div
+            class="max-w-[1500px] mx-auto rounded-2xl bg-surface-container-low p-8 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-2xl border border-white/10"
+          >
+            <div class="flex flex-col gap-2 max-w-2xl">
+              <span
+                class="font-mono text-xs text-secondary uppercase tracking-widest font-semibold"
+                >PERFORMA KENDARAAN MAKSIMAL</span
+              >
+              <h2
+                class="font-headline text-2xl sm:text-3xl text-white font-extrabold tracking-tight"
+              >
+                Siap Merawat Kendaraan Anda dengan Cara Modern?
+              </h2>
+              <p class="text-sm text-on-surface-variant">
+                Daftarkan kendaraan Anda hari ini untuk rekam jejak digital
+                gratis dan pengingat servis otomatis.
+              </p>
+            </div>
+            <a
+              class="h-12 px-7 rounded-xl bg-primary-container text-on-primary-container hover:bg-primary font-headline font-bold text-sm flex items-center justify-center gap-2 shadow-xl shadow-sky-500/20"
+              href="/registrasi.html"
+            >
+              <span>Daftar Gratis Sekarang</span>
+              <span class="material-symbols-outlined text-[18px]"
+                >arrow_forward</span
+              >
+            </a>
+          </div>
+        </section>
+      </div>
+    </main>
 
-    <!-- FLOATING BUTTON TRIGGERS -->
-    <div class="flex items-center gap-2">
-      <a data-requires-login href="/ai.html"  class="h-11 px-5 rounded-full bg-surface-container-low hover:bg-surface-container text-secondary flex items-center gap-2 shadow-2xl border border-secondary/40 text-xs font-bold"  type="button">
-        <span class="material-symbols-outlined text-secondary text-[20px]">smart_toy</span>
-        <span>Tanya AI</span>
-      </a>
+    <!-- FLOATING ACTION BUTTONS (BOTTOM-RIGHT) -->
+    <aside
+      aria-label="Aksi Cepat"
+      class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3"
+    >
+      <!-- AI CHAT DRAWER PANEL -->
 
-      <a data-requires-login href="/search.html?category=emergency"  class="h-11 px-5 rounded-full bg-surface-container-low hover:bg-surface-container text-tertiary flex items-center gap-2 shadow-2xl border-2 border-tertiary text-xs font-bold shadow-amber-500/20"  type="button">
-        <div class="relative flex items-center justify-center">
-          <span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
-          <span class="absolute w-4 h-4 rounded-full bg-tertiary opacity-75 animate-ping"></span>
-        </div>
-        <span>🚨 SOS 24 Jam</span>
-      </a>
-    </div>
+      <!-- FLOATING BUTTON TRIGGERS -->
+      <div class="flex items-center gap-2">
+        <a
+          data-requires-login
+          href="/ai.html"
+          class="h-11 px-5 rounded-full bg-surface-container-low hover:bg-surface-container text-secondary flex items-center gap-2 shadow-2xl border border-secondary/40 text-xs font-bold"
+          type="button"
+        >
+          <span class="material-symbols-outlined text-secondary text-[20px]"
+            >smart_toy</span
+          >
+          <span>Tanya AI</span>
+        </a>
 
-  </aside>
+        <a
+          data-requires-login
+          href="/search.html?category=emergency"
+          class="h-11 px-5 rounded-full bg-surface-container-low hover:bg-surface-container text-tertiary flex items-center gap-2 shadow-2xl border-2 border-tertiary text-xs font-bold shadow-amber-500/20"
+          type="button"
+        >
+          <div class="relative flex items-center justify-center">
+            <span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+            <span
+              class="absolute w-4 h-4 rounded-full bg-tertiary opacity-75 animate-ping"
+            ></span>
+          </div>
+          <span>🚨 SOS 24 Jam</span>
+        </a>
+      </div>
+    </aside>
 
-  <!-- FOOTER -->
-  <footer class="w-full bg-surface-container-lowest border-t border-white/5">
-    <div class="w-full max-w-[1500px] mx-auto px-6 sm:px-10 py-6">
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-outline">
-        <p>© 2026 bengkelin automotive telemetry platform.</p>
-        <div class="flex items-center gap-6">
-          <span class="text-on-surface-variant">ISO/IEC 27001 Terakreditasi</span>
-          <span class="text-on-surface-variant">Latensi: 24ms</span>
+    <!-- FOOTER -->
+    <footer class="w-full bg-surface-container-lowest border-t border-white/5">
+      <div class="w-full max-w-[1500px] mx-auto px-6 sm:px-10 py-6">
+        <div
+          class="flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-outline"
+        >
+          <p>© 2026 KunciGarasi automotive telemetry platform.</p>
+          <div class="flex items-center gap-6">
+            <span class="text-on-surface-variant"
+              >ISO/IEC 27001 Terakreditasi</span
+            >
+            <span class="text-on-surface-variant">Latensi: 24ms</span>
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
+    </footer>
 
-  <nav id="landingAccount" aria-label="Akun aktif"></nav><p id="landingAuthStatus" role="status" aria-live="polite" class="px-6 py-3 text-center text-sm text-amber-300"></p>
-  <!-- CLIENT SCRIPT -->
-  <script src="/app.js"></script>
+    <nav id="landingAccount" aria-label="Akun aktif"></nav>
+    <p
+      id="landingAuthStatus"
+      role="status"
+      aria-live="polite"
+      class="px-6 py-3 text-center text-sm text-amber-300"
+    ></p>
+    <!-- CLIENT SCRIPT -->
+    <script src="/app.js"></script>
 
-  <script src="/landing-auth.js"></script>
-<script src="/notifications.js"></script></body>
+    <script src="/landing-auth.js"></script>
+    <script src="/notifications.js"></script>
+  </body>
 </html>
