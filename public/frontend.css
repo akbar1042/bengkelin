@@ -1,35 +1,421 @@
 /* Shared frontend adaptation: existing API, consent and role hooks are unchanged. */
-:root{color-scheme:dark;--bg:#0b1326;--panel:#131b2e;--text:#dae2fd;--muted:#bfc7d2;--accent:#4cd7f6}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.6}
-*{box-sizing:border-box} [hidden]{display:none!important} a{color:var(--accent)} button,a,input,select,textarea{touch-action:manipulation}
-button{cursor:pointer}button:disabled,[aria-disabled=true]{opacity:.5;cursor:default} :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-body>header,body>main:not(.main),body>h1,body>p,body>form,body>ul,body>a{max-width:1120px;margin:24px auto;padding:0 24px}
-body>main:not(.main){padding:28px;background:var(--panel);border-radius:20px} h1,h2,h3{font-weight:700}p{margin:.8rem 0}
-body>header nav,nav[aria-label="Kelompok bengkel"],.filters,.top-actions,.benefits,.section-heading{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-:where(input:not([type=checkbox]):not([type=radio]),textarea,select){background:#0b1326;color:var(--text);border:1px solid #39445d;border-radius:10px;padding:12px;max-width:100%}
-textarea{width:100%} label{color:var(--text)} form p label{display:block}button{border:1px solid #39445d;border-radius:10px;padding:10px 16px;background:#222a3d;color:var(--text)}
-button[aria-pressed=true],button[type=submit],.primary-button{background:var(--accent);color:#003640} [role=status]{min-height:1.5em;overflow-wrap:anywhere}
-.hero-copy{padding:32px}.hero-art{display:flex;align-items:center;justify-content:center;min-height:240px;background:url('/images/mekanik_diwek.png') center bottom/contain no-repeat}.hero-art>*{display:none}
-.benefits{margin-top:20px;font-size:.85rem}.services{margin-top:24px}.section-heading{justify-content:space-between}.filters{margin-top:20px}.search-box{flex:1;min-width:180px}
-.profile{overflow-wrap:anywhere}.avatar{border-radius:50%;background:#222a3d;padding:10px}.profile small{display:block}.breadcrumb b{padding:0 12px}.help-card h3{margin-top:8px}
-#konsultasi h2,#konsultasi label{color:var(--text)}#konsultasi>p{color:var(--muted)}#chatLog{color:#0f172a}#chatMessage{background:#0b1326;color:var(--text)}
-#dashboardSummary{display:flex;flex-wrap:wrap;gap:16px;list-style:none;padding:0}#dashboardSummary li,#dashboardItems li,#mine li{padding:18px;background:#222a3d;border-radius:12px;margin:10px 0}
-[aria-labelledby=customerDashboardTitle]{margin-top:24px;padding:24px;background:var(--panel);border-radius:16px}#pending{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:20px}
-#pending section{color:#0f172a}#pending input,#pending textarea{background:#fff;color:#0f172a}.workshop-grid article{height:100%}.workshop-grid a{display:inline-flex}
-@media(max-width:640px){.hero-copy{padding:22px}.hero-art{min-height:190px}.top-actions{gap:8px}.section-heading{align-items:flex-start}body>header,body>main:not(.main){margin:16px 12px;padding:18px}.filters>*{max-width:100%}}
+:root {
+  color-scheme: dark;
+  --bg: #0b1326;
+  --panel: #131b2e;
+  --text: #dae2fd;
+  --muted: #bfc7d2;
+  --accent: #4cd7f6;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, sans-serif;
+  line-height: 1.6;
+}
+* {
+  box-sizing: border-box;
+}
+[hidden] {
+  display: none !important;
+}
+a {
+  color: var(--accent);
+}
+button,
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+button {
+  cursor: pointer;
+}
+button:disabled,
+[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: default;
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+body > header,
+body > main:not(.main),
+body > h1,
+body > p,
+body > form,
+body > ul,
+body > a {
+  max-width: 1120px;
+  margin: 24px auto;
+  padding: 0 24px;
+}
+body > main:not(.main) {
+  padding: 28px;
+  background: var(--panel);
+  border-radius: 20px;
+}
+h1,
+h2,
+h3 {
+  font-weight: 700;
+}
+p {
+  margin: 0.8rem 0;
+}
+body > header nav,
+nav[aria-label="Kelompok bengkel"],
+.filters,
+.top-actions,
+.benefits,
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+:where(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
+  background: #0b1326;
+  color: var(--text);
+  border: 1px solid #39445d;
+  border-radius: 10px;
+  padding: 12px;
+  max-width: 100%;
+}
+textarea {
+  width: 100%;
+}
+label {
+  color: var(--text);
+}
+form p label {
+  display: block;
+}
+button {
+  border: 1px solid #39445d;
+  border-radius: 10px;
+  padding: 10px 16px;
+  background: #222a3d;
+  color: var(--text);
+}
+button[aria-pressed="true"],
+button[type="submit"],
+.primary-button {
+  background: var(--accent);
+  color: #003640;
+}
+[role="status"] {
+  min-height: 1.5em;
+  overflow-wrap: anywhere;
+}
+.hero-copy {
+  padding: 32px;
+}
+.hero-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  background: url("/images/mekanik_diwek.png") center bottom/contain no-repeat;
+}
+.hero-art > * {
+  display: none;
+}
+.benefits {
+  margin-top: 20px;
+  font-size: 0.85rem;
+}
+.services {
+  margin-top: 24px;
+}
+.section-heading {
+  justify-content: space-between;
+}
+.filters {
+  margin-top: 20px;
+}
+.search-box {
+  flex: 1;
+  min-width: 180px;
+}
+.profile {
+  overflow-wrap: anywhere;
+}
+.avatar {
+  border-radius: 50%;
+  background: #222a3d;
+  padding: 10px;
+}
+.profile small {
+  display: block;
+}
+.breadcrumb b {
+  padding: 0 12px;
+}
+.help-card h3 {
+  margin-top: 8px;
+}
+#konsultasi h2,
+#konsultasi label {
+  color: var(--text);
+}
+#konsultasi > p {
+  color: var(--muted);
+}
+#chatLog {
+  color: #0f172a;
+}
+#chatMessage {
+  background: #0b1326;
+  color: var(--text);
+}
+#dashboardSummary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+}
+#dashboardSummary li,
+#dashboardItems li,
+#mine li {
+  padding: 18px;
+  background: #222a3d;
+  border-radius: 12px;
+  margin: 10px 0;
+}
+[aria-labelledby="customerDashboardTitle"] {
+  margin-top: 24px;
+  padding: 24px;
+  background: var(--panel);
+  border-radius: 16px;
+}
+#pending {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 20px;
+}
+#pending section {
+  color: #0f172a;
+}
+#pending input,
+#pending textarea {
+  background: #fff;
+  color: #0f172a;
+}
+.workshop-grid article {
+  height: 100%;
+}
+.workshop-grid a {
+  display: inline-flex;
+}
+@media (max-width: 640px) {
+  .hero-copy {
+    padding: 22px;
+  }
+  .hero-art {
+    min-height: 190px;
+  }
+  .top-actions {
+    gap: 8px;
+  }
+  .section-heading {
+    align-items: flex-start;
+  }
+  body > header,
+  body > main:not(.main) {
+    margin: 16px 12px;
+    padding: 18px;
+  }
+  .filters > * {
+    max-width: 100%;
+  }
+}
 
-body>main:not(.main) h2{margin-top:24px} #chatLog strong{color:inherit} input:disabled{opacity:.5}
+body > main:not(.main) h2 {
+  margin-top: 24px;
+}
+#chatLog strong {
+  color: inherit;
+}
+input:disabled {
+  opacity: 0.5;
+}
 
 /* Dedicated feature pages */
-fieldset{border:1px solid #39445d;border-radius:12px;padding:18px;margin:20px 0;min-width:0}legend{padding:0 8px}form>label,fieldset>label{display:block;margin:14px 0}label>input:not([type=checkbox]),label>select,label>textarea{display:block;width:100%;margin-top:6px}input[type=checkbox]{margin-right:8px}.day-options{display:flex;gap:16px;flex-wrap:wrap}.feature-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:18px;margin:24px 0}.feature-links a{padding:24px;background:#222a3d;border-radius:12px}.warning{padding:16px;background:#483511;border-left:4px solid #ffb95f}dialog{color:#dae2fd;background:#131b2e;border:1px solid #39445d;border-radius:16px;width:min(700px,calc(100% - 24px));max-height:85vh;overflow:auto;padding:24px}dialog::backdrop{background:#0009}dialog label{display:block;margin:18px 0}#workshopMap{border:0;border-radius:12px}#landingAccount{padding:20px}#landingAccount a,#landingAccount button{margin-right:16px}#workshopMapPanel{margin:20px 0}
+fieldset {
+  border: 1px solid #39445d;
+  border-radius: 12px;
+  padding: 18px;
+  margin: 20px 0;
+  min-width: 0;
+}
+legend {
+  padding: 0 8px;
+}
+form > label:not([hidden]),
+fieldset > label:not([hidden]) {
+  display: block;
+  margin: 14px 0;
+}
+label > input:not([type="checkbox"]),
+label > select,
+label > textarea {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+}
+input[type="checkbox"] {
+  margin-right: 8px;
+}
+.day-options {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.feature-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 18px;
+  margin: 24px 0;
+}
+.feature-links a {
+  padding: 24px;
+  background: #222a3d;
+  border-radius: 12px;
+}
+.warning {
+  padding: 16px;
+  background: #483511;
+  border-left: 4px solid #ffb95f;
+}
+dialog {
+  color: #dae2fd;
+  background: #131b2e;
+  border: 1px solid #39445d;
+  border-radius: 16px;
+  width: min(700px, calc(100% - 24px));
+  max-height: 85vh;
+  overflow: auto;
+  padding: 24px;
+}
+dialog::backdrop {
+  background: #0009;
+}
+dialog label {
+  display: block;
+  margin: 18px 0;
+}
+#workshopMap {
+  border: 0;
+  border-radius: 12px;
+}
+#landingAccount {
+  padding: 20px;
+}
+#landingAccount a,
+#landingAccount button {
+  margin-right: 16px;
+}
+#workshopMapPanel {
+  margin: 20px 0;
+}
 
-#featureContent article{background:#131b2e;border:1px solid #39445d;border-radius:14px;padding:22px;margin:20px 0}#featureContent a, #featureContent button{margin:8px 12px 8px 0;display:inline-block}#featureContent form{padding:16px 0}#featureContent label{display:block;margin:12px 0}.profile-photo{max-width:100%;width:280px;max-height:240px;object-fit:cover;display:inline-block;margin:12px;border-radius:12px}#featureContent fieldset label,#services>label{display:inline-block;margin:12px 20px 12px 0}nav{display:flex;gap:16px;flex-wrap:wrap}#googleMapCanvas{height:440px;max-width:100%}
+#featureContent article {
+  background: #131b2e;
+  border: 1px solid #39445d;
+  border-radius: 14px;
+  padding: 22px;
+  margin: 20px 0;
+}
+#featureContent a,
+#featureContent button {
+  margin: 8px 12px 8px 0;
+  display: inline-block;
+}
+#featureContent form {
+  padding: 16px 0;
+}
+#featureContent label:not([hidden]) {
+  display: block;
+  margin: 12px 0;
+}
+.profile-photo {
+  max-width: 100%;
+  width: 280px;
+  max-height: 240px;
+  object-fit: cover;
+  display: inline-block;
+  margin: 12px;
+  border-radius: 12px;
+}
+#featureContent fieldset label,
+#services > label {
+  display: inline-block;
+  margin: 12px 20px 12px 0;
+}
+nav {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+#googleMapCanvas {
+  height: 440px;
+  max-width: 100%;
+}
 
-#supportLog article,#ticketList article,#notificationList article{padding:18px;margin:14px 0;background:#222a3d;border-radius:12px}#supportLog p{white-space:pre-wrap}#notificationList a{margin-right:16px}
+#supportLog article,
+#ticketList article,
+#notificationList article {
+  padding: 18px;
+  margin: 14px 0;
+  background: #222a3d;
+  border-radius: 12px;
+}
+#supportLog p {
+  white-space: pre-wrap;
+}
+#notificationList a {
+  margin-right: 16px;
+}
 
 /* Consultation messages */
-#chatLog[role="log"] { display:flex; flex-direction:column; gap:12px; min-height:180px; max-height:440px; overflow:auto; padding:16px; background:#0b1326; border:1px solid #39445d; border-radius:16px; }
-#chatLog .vehicle-chat-bubble { max-width:min(85%, 48rem); margin:0; padding:12px 16px; border-radius:16px; white-space:pre-wrap; overflow-wrap:anywhere; }
-#chatLog .vehicle-chat-bubble strong { display:block; margin-bottom:3px; }
-#chatLog .vehicle-chat-bubble--user { align-self:flex-end; background:#4cd7f6; color:#003640; border-bottom-right-radius:4px; }
-#chatLog .vehicle-chat-bubble--assistant { align-self:flex-start; background:#222a3d; color:#dae2fd; border-bottom-left-radius:4px; }
+#chatLog[role="log"] {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 180px;
+  max-height: 440px;
+  overflow: auto;
+  padding: 16px;
+  background: #0b1326;
+  border: 1px solid #39445d;
+  border-radius: 16px;
+}
+#chatLog .vehicle-chat-bubble {
+  max-width: min(85%, 48rem);
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 16px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+#chatLog .vehicle-chat-bubble strong {
+  display: block;
+  margin-bottom: 3px;
+}
+#chatLog .vehicle-chat-bubble--user {
+  align-self: flex-end;
+  background: #4cd7f6;
+  color: #003640;
+  border-bottom-right-radius: 4px;
+}
+#chatLog .vehicle-chat-bubble--assistant {
+  align-self: flex-start;
+  background: #222a3d;
+  color: #dae2fd;
+  border-bottom-left-radius: 4px;
+}

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="id" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Kebijakan Privasi KunciGarasi — Uji Coba</title>
+    <link rel="stylesheet" href="/frontend.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Kebijakan Privasi KunciGarasi — Uji Coba</h1>
+      <p>
+        Berlaku sejak 3 November 2026. Pengelola adalah tim pengembang proyek
+        akbar1042/Bengkel_Hackathon. Server pengujian dikelola tim pada laptop
+        Ubuntu.
+      </p>
+      <h2>Data dan tujuan</h2>
+      <p>
+        Akun menyimpan email, hash password, role, dan tanggal pendaftaran untuk
+        autentikasi. Cookie session digunakan untuk mempertahankan login, dengan
+        masa berlaku hingga 24 jam. Pendaftaran bengkel menyimpan pemilik akun,
+        nama, alamat, telepon, koordinat, layanan, dan hasil peninjauan. Detail
+        bengkel yang disetujui ditampilkan kepada pengguna yang login.
+      </p>
+      <h2>Lokasi dan Google</h2>
+      <p>
+        Lokasi perangkat diminta saat pengguna memilih Mitra KunciGarasi atau
+        Bengkel Umum, menekan tombol lokasi, atau Cari di Google Maps. Setelah
+        izin browser diberikan dan koordinat tersedia, titik tersebut dikirim ke
+        backend dan Google Places untuk pencarian bengkel umum. Jika izin
+        ditolak atau lokasi gagal didapatkan, bengkel umum tidak ditampilkan dan
+        tidak memakai titik default. Pencarian mitra dan data contoh juga
+        memerlukan koordinat perangkat; tidak ada lokasi default. Koordinat
+        pencarian pengguna tidak ditulis ke tabel akun oleh fitur ini. Hasil
+        Google tidak disimpan ke database aplikasi; Place ID dapat disimpan
+        untuk menautkan mitra. Penggunaan Google tunduk pula pada
+        <a href="https://policies.google.com/privacy"
+          >Kebijakan Privasi Google</a
+        >.
+      </p>
+      <h2>Chat dan penyedia jaringan</h2>
+      <p>
+        Keluhan chat diproses melalui layanan Google Gemini AI dari server
+        KunciGarasi. Riwayat chat aplikasi disimpan dalam memori hingga 30 menit
+        tanpa aktivitas, dapat dihapus melalui Percakapan baru, dan hilang saat
+        proses dimulai ulang. Konteks model mempunyai masa hidup tersendiri.
+        Jangan memasukkan data pribadi sensitif. Cloudflare Tunnel meneruskan
+        trafik HTTPS ke server; penyedia jaringan dapat memproses metadata
+        koneksi seperti alamat IP sesuai
+        <a href="https://www.cloudflare.com/privacypolicy/"
+          >Kebijakan Privasi Cloudflare</a
+        >.
+      </p>
+      <h2>Penyimpanan dan pilihan pengguna</h2>
+      <p>
+        Data akun dan bengkel bertahan di database hingga dihapus pengelola;
+        belum tersedia penghapusan otomatis melalui halaman pengguna. Pengguna
+        dapat menolak atau mencabut izin lokasi melalui browser, menghapus
+        percakapan, dan logout. Untuk meminta pemeriksaan atau penghapusan data,
+        hubungi pengelola yang mengundangmu dalam pengujian. Issue publik
+        <a href="https://github.com/akbar1042/Bengkel_Hackathon/issues"
+          >repositori proyek</a
+        >
+        hanya untuk masalah teknis tanpa data pribadi. Jangan kirim password
+        atau data sensitif di sana.
+      </p>
+      <p>
+        <a href="/terms.html">Syarat Layanan</a> ·
+        <a href="/login.html">Login</a>
+      </p>
+    </main>
+  </body>
+</html>

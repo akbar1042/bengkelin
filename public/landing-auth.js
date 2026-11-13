@@ -1,6 +1,48 @@
 (() => {
- const status=document.getElementById('landingAuthStatus');
- async function account(){const r=await fetch('/api/me',{cache:'no-store'});if(r.status===401)return null;if(!r.ok)throw Error('Sesi belum dapat diperiksa. Coba lagi.');return (await r.json()).user;}
- document.addEventListener('click',async e=>{const link=e.target.closest('a[data-requires-login]');if(!link)return;e.preventDefault();try{status.textContent='';const user=await account();location.assign(user?link.href:'/login.html');}catch(error){status.textContent=error.message;}});
- account().then(user=>{if(!user)return;Bengkel.renderAccountProfiles(user);const nav=document.getElementById('landingAccount');const label=document.createElement('p');label.textContent='Masuk sebagai '+user.email;const dash=document.createElement('a');dash.href=user.dashboardUrl;dash.textContent='Dashboard saya';const out=document.createElement('button');out.textContent='Keluar';out.addEventListener('click',async()=>{try{await Bengkel.request('/api/logout',Bengkel.json('POST',{}));location.assign('/');}catch(error){status.textContent=error.message;}});nav.append(label,dash,out);for(const link of document.querySelectorAll('a[href="/login.html"]')){link.href=user.dashboardUrl;link.textContent='Dashboard saya';}}).catch(()=>{});
+  const status = document.getElementById("landingAuthStatus");
+  async function account() {
+    const r = await fetch("/api/me", { cache: "no-store" });
+    if (r.status === 401) return null;
+    if (!r.ok) throw Error("Sesi belum dapat diperiksa. Coba lagi.");
+    return (await r.json()).user;
+  }
+  document.addEventListener("click", async (e) => {
+    const link = e.target.closest("a[data-requires-login]");
+    if (!link) return;
+    e.preventDefault();
+    try {
+      status.textContent = "";
+      const user = await account();
+      location.assign(user ? link.href : "/login.html");
+    } catch (error) {
+      status.textContent = error.message;
+    }
+  });
+  account()
+    .then((user) => {
+      if (!user) return;
+      Bengkel.renderAccountProfiles(user);
+      const nav = document.getElementById("landingAccount");
+      const label = document.createElement("p");
+      label.textContent = "Masuk sebagai " + user.email;
+      const dash = document.createElement("a");
+      dash.href = user.dashboardUrl;
+      dash.textContent = "Dashboard saya";
+      const out = document.createElement("button");
+      out.textContent = "Keluar";
+      out.addEventListener("click", async () => {
+        try {
+          await Bengkel.request("/api/logout", Bengkel.json("POST", {}));
+          location.assign("/");
+        } catch (error) {
+          status.textContent = error.message;
+        }
+      });
+      nav.append(label, dash, out);
+      for (const link of document.querySelectorAll('a[href="/login.html"]')) {
+        link.href = user.dashboardUrl;
+        link.textContent = "Dashboard saya";
+      }
+    })
+    .catch(() => {});
 })();

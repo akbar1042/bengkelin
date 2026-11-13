@@ -1,0 +1,2 @@
+ai/data/*.jsonl text eol=lf
+ai/data/**/*.jsonl text eol=lf
