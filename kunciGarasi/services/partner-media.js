@@ -35,7 +35,9 @@ async function decodeImage(buffer) {
     );
   }
 }
-const directory = path.join(__dirname, "../../data/uploads");
+const directory = process.env.VERCEL
+  ? "/tmp/uploads"
+  : path.join(__dirname, "../../data/uploads");
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 3 * 1024 * 1024, files: 5, fields: 3, fieldSize: 65536 },
@@ -96,7 +98,7 @@ async function savePhotos(files, input) {
 async function removePhotos(items) {
   await Promise.all(
     (items || []).map((f) =>
-      fs.unlink(path.join(directory, f.id)).catch(() => {}),
+      fs.unlink(path.join(directory, f.id)).catch(() => { }),
     ),
   );
 }
