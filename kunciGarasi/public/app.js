@@ -470,7 +470,7 @@ $("logoutBtn").addEventListener("click", async () => {
   try {
     const response = await fetch("/api/logout", { method: "POST" });
     if (!response.ok) throw new Error("Logout gagal.");
-    window.location.replace("/login.html");
+    window.location.replace("/");
   } catch (error) {
     $("accountMessage").textContent = error.message;
     btn.disabled = false;
