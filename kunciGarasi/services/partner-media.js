@@ -2,8 +2,23 @@ const fs = require("node:fs/promises"),
   path = require("node:path"),
   crypto = require("node:crypto"),
   multer = require("multer");
+const db = require("../../db");
 const { bad } = require("../lib/workshop-utils");
 const sharp = require("sharp");
+let mediaTableReady;
+function ensureMediaTable() {
+  if (!mediaTableReady) {
+    mediaTableReady = db
+      .execute(
+        "CREATE TABLE IF NOT EXISTS partner_media (id VARCHAR(64) PRIMARY KEY, mime_type VARCHAR(64) NOT NULL, data LONGBLOB NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)",
+      )
+      .catch((err) => {
+        mediaTableReady = null;
+        throw err;
+      });
+  }
+  return mediaTableReady;
+}
 async function decodeImage(buffer) {
   imageType(buffer);
   try {
@@ -82,9 +97,20 @@ async function savePhotos(files, input) {
       kind: f.kind,
     });
   }
-  await fs.mkdir(directory, { recursive: true });
   const saved = [];
   try {
+    if (process.env.VERCEL) {
+      await ensureMediaTable();
+      for (const { f, id, kind } of descriptors) {
+        await db.execute(
+          "INSERT INTO partner_media (id, mime_type, data) VALUES (?, 'image/webp', ?)",
+          [id, f.buffer],
+        );
+        saved.push({ id, kind });
+      }
+      return saved;
+    }
+    await fs.mkdir(directory, { recursive: true });
     for (const { f, id, kind } of descriptors) {
       await fs.writeFile(path.join(directory, id), f.buffer, { flag: "wx" });
       saved.push({ id, kind });
@@ -96,16 +122,51 @@ async function savePhotos(files, input) {
   }
 }
 async function removePhotos(items) {
+  if (process.env.VERCEL) {
+    await ensureMediaTable().catch(() => {});
+    await Promise.all(
+      (items || []).map((f) =>
+        db.execute("DELETE FROM partner_media WHERE id = ?", [f.id]).catch(() => {}),
+      ),
+    );
+    return;
+  }
   await Promise.all(
     (items || []).map((f) =>
       fs.unlink(path.join(directory, f.id)).catch(() => { }),
     ),
   );
 }
+async function readPhoto(id) {
+  if (process.env.VERCEL) {
+    await ensureMediaTable();
+    const [rows] = await db.execute(
+      "SELECT mime_type, data FROM partner_media WHERE id = ?",
+      [id],
+    );
+    if (!rows.length) return null;
+    return { mimeType: rows[0].mime_type || "image/webp", buffer: rows[0].data };
+  }
+  try {
+    const buffer = await fs.readFile(path.join(directory, id));
+    const ext = path.extname(id).toLowerCase();
+    const mimeType =
+      ext === ".png"
+        ? "image/png"
+        : ext === ".jpg" || ext === ".jpeg"
+          ? "image/jpeg"
+          : "image/webp";
+    return { mimeType, buffer };
+  } catch (e) {
+    if (e.code === "ENOENT") return null;
+    throw e;
+  }
+}
 module.exports = {
   upload,
   savePhotos,
   removePhotos,
+  readPhoto,
   imageType,
   decodeImage,
   directory,
