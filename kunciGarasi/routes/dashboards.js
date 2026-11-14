@@ -34,21 +34,25 @@ function createDashboardRouter({
     };
   }
   router.get("/dashboard", (req, res) =>
-    res.redirect(req.account.dashboardUrl),
+    res.redirect(
+      req.account.role === "customer"
+        ? "/landing.html"
+        : req.account.dashboardUrl,
+    ),
   );
   for (const role of ["customer", "partner", "admin"]) {
     router.get(accounts.DASHBOARD_PATHS[role], roleOnly(role), (req, res) =>
-      res.sendFile(
-        role === "customer"
-          ? path.join(__dirname, "..", "public", "index.html")
-          : path.join(
-              __dirname,
-              "..",
-              "..",
-              "pages",
-              "dashboard-" + role + ".html",
-            ),
-      ),
+      role === "customer"
+        ? res.redirect("/landing.html")
+        : res.sendFile(
+          path.join(
+            __dirname,
+            "..",
+            "..",
+            "pages",
+            "dashboard-" + role + ".html",
+          ),
+        ),
     );
     router.get("/api/dashboard/" + role, roleOnly(role), async (req, res) => {
       if (role === "admin")
