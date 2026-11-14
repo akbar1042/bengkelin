@@ -119,7 +119,7 @@
     logoutBtn.disabled = true;
     try {
       await Bengkel.request("/api/logout", Bengkel.json("POST", {}));
-      window.location.replace("/login.html");
+      window.location.replace("/");
     } catch (error) {
       el("dashboardStatus").textContent = error.message;
       logoutBtn.disabled = false;
