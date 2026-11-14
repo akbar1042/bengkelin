@@ -13,7 +13,7 @@
     "migrate:commerce": "node --env-file-if-exists=.env scripts/migrate-commerce.cjs",
     "migrate:support": "node --env-file-if-exists=.env scripts/migrate-support.cjs",
     "migrate:audit": "node --env-file-if-exists=.env scripts/migrate-audit.cjs",
-    "migrate:review-versions": "node --env-file-if-exists=.env scripts/migrate-review-versions.cjs",
+    "migrate:review-versions": "node --env-file-if-exists=.env scripts/migrate-review-versions.cjs"
   },
   "keywords": [],
   "author": "",
