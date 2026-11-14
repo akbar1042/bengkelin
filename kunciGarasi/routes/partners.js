@@ -10,10 +10,9 @@ const {
   upload,
   savePhotos,
   removePhotos,
-  directory,
+  readPhoto,
 } = require("../services/partner-media");
-const path = require("node:path"),
-  bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 function createPartnerRouter({ repository = defaultRepository } = {}) {
   const router = express.Router();
   router.get("/api/partners/services", (req, res) =>
@@ -123,9 +122,12 @@ function createPartnerRouter({ repository = defaultRepository } = {}) {
         ))
       )
         return res.sendStatus(404);
+      const media = await readPhoto(id);
+      if (!media) return res.sendStatus(404);
+      res.set("Content-Type", media.mimeType);
       res.set("X-Content-Type-Options", "nosniff");
       res.set("Cache-Control", "private, no-store");
-      res.sendFile(path.join(directory, id));
+      res.send(media.buffer);
     } catch (e) {
       next(e);
     }
